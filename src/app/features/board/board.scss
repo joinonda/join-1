@@ -1,0 +1,12 @@
+.board-container {
+  padding: 24px;
+  height: 100%;
+  overflow-x: auto;
+}
+
+.board-columns-wrapper {
+  display: flex;
+  gap: 24px;
+  min-height: 500px;
+  align-items: flex-start;
+}

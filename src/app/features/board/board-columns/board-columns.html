@@ -1,1 +1,20 @@
-<p>board-columns works!</p>
+<div class="board-column">
+    <div class="column-header">
+        <h2>{{ title }}</h2>
+        <button class="add-task-btn" aria-label="Add task">
+            <span>+</span>
+        </button>
+    </div>
+
+    <div class="tasks-container">
+        @if (tasks.length === 0) {
+        <div class="empty-state">
+            <p>No tasks {{ title }}</p>
+        </div>
+        } @else {
+        @for (task of tasks; track task.id) {
+        <app-task-card [task]="task"></app-task-card>
+        }
+        }
+    </div>
+</div>

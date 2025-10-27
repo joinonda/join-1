@@ -1,0 +1,70 @@
+.board-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 250px;
+  max-width: 300px;
+  background-color: #f6f7f8;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2a3647;
+    margin: 0;
+  }
+
+  .add-task-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #2a3647;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    span {
+      font-size: 24px;
+      font-weight: 300;
+      color: #2a3647;
+    }
+
+    &:hover {
+      background-color: #2a3647;
+
+      span {
+        color: white;
+      }
+    }
+  }
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 200px;
+}
+
+.empty-state {
+  border: 2px dashed #d1d1d1;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+
+  p {
+    color: #a8a8a8;
+    margin: 0;
+    font-size: 14px;
+  }
+}
