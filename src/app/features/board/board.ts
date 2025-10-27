@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDropList,
+  CdkDrag,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board',
-  imports: [],
+  imports: [CdkDropList, CdkDrag],
   templateUrl: './board.html',
-  styleUrl: './board.scss'
+  styleUrl: './board.scss',
 })
-export class Board {
-
-}
+export class Board {}
