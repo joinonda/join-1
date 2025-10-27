@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-add-task',
   imports: [],
   templateUrl: './add-task.html',
-  styleUrl: './add-task.scss'
+  styleUrl: './add-task.scss',
+  standalone: true,
 })
-export class AddTask {
-
-}
+export class AddTask {}
