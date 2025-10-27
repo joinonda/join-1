@@ -1,8 +1,18 @@
 <div class="board-container">
     <div class="board-columns-wrapper">
         @for (column of columns; track column.id) {
-        <app-board-columns [title]="column.title" [tasks]="column.tasks">
+        <app-board-columns 
+            [title]="column.title" 
+            [tasks]="column.tasks" 
+            [columnId]="column.id"
+            (addTaskClicked)="openAddTaskModal($event)">
         </app-board-columns>
         }
     </div>
+    <app-task-modal 
+        [showModal]="showAddTaskModal" 
+        [defaultStatus]="defaultStatus"
+        (closeModal)="closeAddTaskModal()" 
+        (taskCreated)="handleTaskCreated($event)">
+    </app-task-modal>
 </div>

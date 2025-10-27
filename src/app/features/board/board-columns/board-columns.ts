@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Task } from '../../../core/interfaces/board-tasks-interface';
 import { TaskCard } from '../task-card/task-card';
 
 @Component({
@@ -11,5 +12,11 @@ import { TaskCard } from '../task-card/task-card';
 })
 export class BoardColumns {
   @Input() title: string = '';
-  @Input() tasks: any[] = []; // TODO: Typisierung mit Task Interface
+  @Input() tasks: Task[] = [];
+  @Input() columnId: string = '';
+  @Output() addTaskClicked = new EventEmitter<string>();
+
+  onAddTaskClick() {
+    this.addTaskClicked.emit(this.columnId);
+  }
 }
