@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkDropListGroup } from '@angular/cdk/drag-drop';
+import { Task } from '../../../core/interfaces/board-tasks-interface';
+import { TaskColumn } from '../task-column/task-column';
 
 /**
  * Board Columns Component - Container für alle Kanban-Spalten
@@ -8,15 +12,21 @@ import { Component } from '@angular/core';
  *
  * Enthält:
  * - 4x TaskColumn Components (To do, In progress, Await feedback, Done)
- * - Drag & Drop Container für spaltenübergreifendes Verschieben
+ * - Drag & Drop Group für spaltenübergreifendes Verschieben (cdkDropListGroup)
  * - Responsive Layout-Grid für die Spalten
  *
- * Die eigentliche Task-Logik liegt in den TaskColumn Child-Components.
+ * Die Drop-Handler und Task-Listen liegen in den TaskColumn Components.
  */
 @Component({
   selector: 'app-board-columns',
-  imports: [],
+  imports: [CommonModule, CdkDropListGroup, TaskColumn],
   templateUrl: './board-columns.html',
   styleUrl: './board-columns.scss',
+  standalone: true,
 })
-export class BoardColumns {}
+export class BoardColumns {
+  @Input() todoTasks: Task[] = [];
+  @Input() inprogressTasks: Task[] = [];
+  @Input() awaitfeedbackTasks: Task[] = [];
+  @Input() doneTasks: Task[] = [];
+}

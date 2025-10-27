@@ -1,1 +1,12 @@
-<p>task-column works!</p>
+<div class="task-column">
+    <div class="task-list" cdkDropList [cdkDropListData]="tasks" [id]="status + '-list'">
+
+        @for (task of tasks; track task.id) {
+        <app-task-card [task]="task"></app-task-card>
+        } @empty {
+        <div class="column-empty">
+            <p>No tasks {{ title }}</p>
+        </div>
+        }
+    </div>
+</div>

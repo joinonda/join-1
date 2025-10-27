@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SearchInput } from '../shared/search-input/search-input';
+import { AddButton } from '../shared/add-button/add-button';
 
 /**
  * Board Header Component - Container für den gesamten Header-Bereich des Boards
@@ -15,8 +17,9 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'app-board-header',
-  imports: [],
+  imports: [SearchInput, AddButton],
   templateUrl: './board-header.html',
   styleUrl: './board-header.scss',
+  standalone: true,
 })
 export class BoardHeader {}

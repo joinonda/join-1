@@ -22,5 +22,6 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './search-input.html',
   styleUrl: './search-input.scss',
+  standalone: true,
 })
 export class SearchInput {}

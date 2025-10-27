@@ -21,5 +21,6 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './add-button.html',
   styleUrl: './add-button.scss',
+  standalone: true,
 })
 export class AddButton {}

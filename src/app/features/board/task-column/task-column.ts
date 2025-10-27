@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkDropList } from '@angular/cdk/drag-drop';
+import { Task } from '../../../core/interfaces/board-tasks-interface';
+import { TaskCard } from '../task-card/task-card';
 
 /**
  * Task Column Component - Einzelne Kanban-Spalte (wiederverwendbar)
@@ -20,8 +24,13 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'app-task-column',
-  imports: [],
+  imports: [CommonModule, CdkDropList, TaskCard],
   templateUrl: './task-column.html',
   styleUrl: './task-column.scss',
+  standalone: true,
 })
-export class TaskColumn {}
+export class TaskColumn {
+  @Input() tasks: Task[] = [];
+  @Input() status!: string;
+  @Input() title!: string;
+}

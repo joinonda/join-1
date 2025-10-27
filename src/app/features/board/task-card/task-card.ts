@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { Task } from '../../../core/interfaces/board-tasks-interface';
 
 /**
  * Task Card Component - Haupt-Component für eine einzelne Task-Karte
@@ -23,8 +26,18 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'app-task-card',
-  imports: [],
+  imports: [CommonModule, CdkDrag],
   templateUrl: './task-card.html',
   styleUrl: './task-card.scss',
+  standalone: true,
 })
-export class TaskCard {}
+export class TaskCard {
+  @Input() task!: Task;
+
+  /**
+   * Berechnet die Anzahl der erledigten Subtasks
+   */
+  get completedSubtasksCount(): number {
+    return this.task.subtasks?.filter((s) => s.completed).length || 0;
+  }
+}
