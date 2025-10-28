@@ -1,9 +1,12 @@
 <div class="board-column">
     <div class="column-header">
         <h2>{{ title }}</h2>
-        <button class="add-task-btn" aria-label="Add task" (click)="onAddTaskClick()">
-            <span>+</span>
+        @if (showAddButton) {
+        <button class="add-task-btn" aria-label="Add task" (click)="onAddTaskClick()" (mouseenter)="isHovering = true"
+            (mouseleave)="isHovering = false">
+            <img [src]="addTaskIcon" alt="Add task" class="add-task-icon" />
         </button>
+        }
     </div>
 
     <div class="tasks-container">

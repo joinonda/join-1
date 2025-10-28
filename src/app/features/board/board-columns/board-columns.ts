@@ -14,7 +14,14 @@ export class BoardColumns {
   @Input() title: string = '';
   @Input() tasks: Task[] = [];
   @Input() columnId: string = '';
+  @Input() showAddButton: boolean = true;
   @Output() addTaskClicked = new EventEmitter<string>();
+
+  isHovering = false;
+
+  get addTaskIcon(): string {
+    return this.isHovering ? 'assets/board/add-task-v2.png' : 'assets/board/add-task-v4.png';
+  }
 
   onAddTaskClick() {
     this.addTaskClicked.emit(this.columnId);

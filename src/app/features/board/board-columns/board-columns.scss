@@ -21,29 +21,26 @@
   }
 
   .add-task-btn {
-    width: 32px;
-    height: 32px;
-    border: 2px solid #2a3647;
-    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    border: none;
     background: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
     transition: all 0.2s;
 
-    span {
-      font-size: 24px;
-      font-weight: 300;
-      color: #2a3647;
+    .add-task-icon {
+      width: 24px;
+      height: 24px;
+      display: block;
+      transition: opacity 0.2s;
     }
 
-    &:hover {
-      background-color: #2a3647;
-
-      span {
-        color: white;
-      }
+    &:hover .add-task-icon {
+      opacity: 0.8;
     }
   }
 }
