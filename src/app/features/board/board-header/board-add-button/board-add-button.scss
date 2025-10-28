@@ -1,43 +1,51 @@
 .add-task-button {
-    position: relative;
-    width: 160px;
-    height: 48px;
-    padding: 8px 16px;
-    border-radius: 10px;
-    border: 1px solid #2C3E50;
-    background-color: #2C3E50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  
-    .button-text {
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      color: #FFFFFF;
-    }
-  
-    .plus-icon {
-      width: 18.67px;
-      height: 18.67px;
-      font-size: 18.67px;
-      font-weight: 300;
-      color: #FFFFFF;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  
-    &:hover {
-      background-color: #34495E;
-      border-color: #34495E;
-    }
-  
-    &:active {
-      transform: scale(0.98);
-    }
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 12px;
+  width: 160px;
+  height: 48px;
+  background: #2a3647;
+  border: 1px solid #2a3647;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  .button-text {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 120%;
+    color: #ffffff;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
   }
+
+  .plus-icon {
+    width: 18px;
+    height: 18px;
+    max-width: 18px;
+    max-height: 18px;
+    object-fit: contain;
+    display: block;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: -2px;
+  }
+
+  &:hover {
+    background-color: #29abe2;
+    border-color: #29abe2;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
