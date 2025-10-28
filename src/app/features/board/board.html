@@ -11,15 +11,17 @@
             [columnId]="column.id"
             [showAddButton]="column.id !== 'done'"
             (addTaskClicked)="openAddTaskModal($event)"
-            (taskClicked)="openViewTaskModal($event)">
+            (taskClicked)="openViewTaskModal($event)"
+            (taskDropped)="onTaskDrop($event)">
         </app-board-columns>
         }
     </div>
+    
     <app-task-modal [showModal]="showAddTaskModal" [defaultStatus]="defaultStatus" (closeModal)="closeAddTaskModal()"
         (taskCreated)="handleTaskCreated($event)">
     </app-task-modal>
 
-     <app-show-task-modal 
+    <app-show-task-modal 
         [showModal]="showViewTaskModal" 
         [task]="selectedTask"
         (closeModal)="closeViewTaskModal()" 

@@ -50,6 +50,37 @@
   flex-direction: column;
   gap: 16px;
   min-height: 200px;
+
+  &.cdk-drop-list-dragging {
+    .cdk-drag {
+      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+}
+.cdk-drag-preview {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+  border-radius: 30px;
+  
+  app-task-card {
+    .task-card {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.4;
+  border: 2px dashed #29ABE2;
+  background: transparent;
+  
+  * {
+    opacity: 0;
+  }
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .empty-state {

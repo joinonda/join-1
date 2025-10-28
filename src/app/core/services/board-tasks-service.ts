@@ -77,6 +77,18 @@ export class BoardTasksService {
     }
   }
 
+  async updateTaskStatus(
+    taskId: string,
+    newStatus: 'todo' | 'inprogress' | 'awaitfeedback' | 'done'
+  ): Promise<void> {
+    const taskDoc = doc(this.firestore, `tasks/${taskId}`);
+
+    await updateDoc(taskDoc, {
+      status: newStatus,
+      updatedAt: Timestamp.now()
+    });
+  }
+
   /**
    * Task löschen
    */

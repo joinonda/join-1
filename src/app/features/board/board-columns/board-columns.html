@@ -9,14 +9,21 @@
         }
     </div>
 
-    <div class="tasks-container">
+    <div class="tasks-container" 
+         cdkDropList
+         [cdkDropListData]="tasks"
+         [id]="columnId"
+         [cdkDropListConnectedTo]="['todo', 'inprogress', 'awaitfeedback', 'done']"
+         (cdkDropListDropped)="taskDropped.emit($event)">
         @if (tasks.length === 0) {
         <div class="empty-state">
             <p>No tasks {{ title }}</p>
         </div>
         } @else {
         @for (task of tasks; track task.id) {
-        <app-task-card [task]="task" (cardClicked)="onTaskClick($event)"></app-task-card>
+        <div cdkDrag>
+            <app-task-card [task]="task" (cardClicked)="onTaskClick($event)"></app-task-card>
+        </div>
         }
         }
     </div>

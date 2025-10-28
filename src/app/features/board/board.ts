@@ -7,6 +7,7 @@ import { BoardColumns } from './board-columns/board-columns';
 import { TaskModal } from './task-modal/task-modal';
 import { ShowTaskModal } from './task-modal/show-task-modal/show-task-modal';
 import { BoardHeader } from './board-header/board-header';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board',
@@ -39,7 +40,7 @@ export class Board implements OnInit, OnDestroy {
   defaultStatus: 'todo' | 'inprogress' | 'awaitfeedback' | 'done' = 'todo';
   isLoading = true;
   searchQuery = '';
-  searchError = ''; 
+  searchError = '';
 
   ngOnInit() {
     this.loadTasks();
@@ -59,7 +60,7 @@ export class Board implements OnInit, OnDestroy {
         this.allTasks.inprogress = tasks.inprogress;
         this.allTasks.awaitfeedback = tasks.awaitfeedback;
         this.allTasks.done = tasks.done;
-        
+
         // Update selectedTask if modal is open
         if (this.showViewTaskModal && this.selectedTask && this.selectedTask.id) {
           const updatedTask = this.findTaskById(this.selectedTask.id);
@@ -67,7 +68,7 @@ export class Board implements OnInit, OnDestroy {
             this.selectedTask = { ...updatedTask };
           }
         }
-        
+
         this.updateDisplayedTasks();
         this.isLoading = false;
       },
@@ -98,18 +99,18 @@ export class Board implements OnInit, OnDestroy {
       this.columns[1].tasks = this.allTasks.inprogress;
       this.columns[2].tasks = this.allTasks.awaitfeedback;
       this.columns[3].tasks = this.allTasks.done;
-      this.searchError = '';  
+      this.searchError = '';
     } else {
       this.columns[0].tasks = this.filterTasks(this.allTasks.todo);
       this.columns[1].tasks = this.filterTasks(this.allTasks.inprogress);
       this.columns[2].tasks = this.filterTasks(this.allTasks.awaitfeedback);
       this.columns[3].tasks = this.filterTasks(this.allTasks.done);
-      
-      const totalFound = this.columns[0].tasks.length + 
-                        this.columns[1].tasks.length + 
-                        this.columns[2].tasks.length + 
-                        this.columns[3].tasks.length;
-      
+
+      const totalFound = this.columns[0].tasks.length +
+        this.columns[1].tasks.length +
+        this.columns[2].tasks.length +
+        this.columns[3].tasks.length;
+
       this.searchError = totalFound === 0 ? 'No tasks found' : '';
     }
   }
@@ -117,12 +118,43 @@ export class Board implements OnInit, OnDestroy {
   filterTasks(tasks: Task[]): Task[] {
     return tasks.filter(task => {
       const matchesTitle = task.title.toLowerCase().includes(this.searchQuery);
-      const matchesDescription = task.description && 
-                                 task.description.toLowerCase().includes(this.searchQuery);
-      
+      const matchesDescription = task.description &&
+        task.description.toLowerCase().includes(this.searchQuery);
+
       return matchesTitle || matchesDescription;
     });
   }
+
+  async onTaskDrop(event: CdkDragDrop<Task[]>) {
+ if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      const task = event.previousContainer.data[event.previousIndex];
+      const newStatus = this.getStatusFromContainerId(event.container.id);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      try {
+        await this.taskService.updateTaskStatus(task.id!, newStatus);
+      } catch (error) {
+        console.error('Error updating task status:', error);
+        transferArrayItem(
+          event.container.data,
+          event.previousContainer.data,
+          event.currentIndex,
+          event.previousIndex
+        );
+      }
+    }
+  }
+
+  getStatusFromContainerId(containerId: string): 'todo' | 'inprogress' | 'awaitfeedback' | 'done' {
+    return containerId as 'todo' | 'inprogress' | 'awaitfeedback' | 'done';
+  }
+
 
   openAddTaskModal(status: string) {
     this.defaultStatus = status as 'todo' | 'inprogress' | 'awaitfeedback' | 'done';
