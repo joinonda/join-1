@@ -33,6 +33,7 @@ export class TaskModal implements OnInit {
 
   showCategoryDropdown = false;
   showContactDropdown = false;
+  showSuccessToast = false;
 
   contacts: Contact[] = [];
   categories = ['Technical Task', 'User Story'];
@@ -181,9 +182,7 @@ export class TaskModal implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-
     const dueDateTimestamp = Timestamp.fromDate(new Date(this.dueDate));
-
     const newTask: Omit<Task, 'id' | 'createdAt'> = {
       title: this.title.trim(),
       description: this.description.trim(),
@@ -194,10 +193,15 @@ export class TaskModal implements OnInit {
       assignedTo: this.selectedContactIds,
       subtasks: this.subtasks,
     };
-
     this.taskCreated.emit(newTask);
-    this.resetForm();
+    this.showSuccessToast = true;
+    setTimeout(() => {
+      this.showSuccessToast = false;
+      this.resetForm();
+      this.closeModal.emit();
+    }, 2000);
   }
+
 
   resetForm() {
     this.title = '';
