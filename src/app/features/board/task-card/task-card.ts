@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Task } from '../../../core/interfaces/board-tasks-interface';
 import { Contact } from '../../../core/interfaces/db-contact-interface';
 import { ContactService } from '../../../core/services/db-contact-service';
@@ -7,7 +8,7 @@ import { PriorityIcon } from '../../../shared/components/priority-icon/priority-
 
 @Component({
   selector: 'app-task-card',
-  imports: [CommonModule, PriorityIcon],
+  imports: [CommonModule, PriorityIcon, FormsModule],
   templateUrl: './task-card.html',
   styleUrl: './task-card.scss',
   standalone: true,
@@ -23,7 +24,9 @@ export class TaskCard implements OnInit, OnChanges {
   contacts: Contact[] = [];
   assignedContacts: Contact[] = [];
   hoveredSubtaskId: string | null = null;
-  showSubtasks = false; 
+  showSubtasks = false;
+  editingSubtaskId: string | null = null;
+  editingSubtaskTitle = '';
 
   async ngOnInit() {
     await this.loadContacts();
@@ -105,12 +108,28 @@ export class TaskCard implements OnInit, OnChanges {
   }
 
   onEditSubtask(subtask: any): void {
-    this.subtaskEdited.emit({ task: this.task, subtask });
+    this.editingSubtaskId = subtask.id;
+    this.editingSubtaskTitle = subtask.title;
+  }
+
+  saveSubtaskEdit(subtask: any): void {
+    if (this.editingSubtaskTitle.trim()) {
+      subtask.title = this.editingSubtaskTitle.trim();
+      this.subtaskEdited.emit({ task: this.task, subtask });
+    }
+    this.cancelSubtaskEdit();
+  }
+
+  cancelSubtaskEdit(): void {
+    this.editingSubtaskId = null;
+    this.editingSubtaskTitle = '';
   }
 
   onDeleteSubtask(subtask: any): void {
-    if (confirm(`Delete subtask "${subtask.title}"?`)) {
-      this.subtaskDeleted.emit({ task: this.task, subtask });
-    }
+    this.subtaskDeleted.emit({ task: this.task, subtask });
+  }
+
+  isEditing(subtaskId: string): boolean {
+    return this.editingSubtaskId === subtaskId;
   }
 }

@@ -9,35 +9,61 @@
     @if (task.subtasks && task.subtasks.length > 0) {
     <div class="subtasks-section" 
          (mouseenter)="showSubtasks = true" 
-         (mouseleave)="showSubtasks = false; hoveredSubtaskId = null">
+         (mouseleave)="showSubtasks = false; hoveredSubtaskId = null"
+         (click)="$event.stopPropagation()">
         
         @if (showSubtasks) {
         <div class="subtasks-list">
             @for (subtask of task.subtasks; track subtask.id) {
             <div class="subtask-item" 
                  (mouseenter)="hoveredSubtaskId = subtask.id" 
-                 (mouseleave)="hoveredSubtaskId = null">
+                 (mouseleave)="hoveredSubtaskId = null"
+                 (click)="$event.stopPropagation()">
+                
+                @if (isEditing(subtask.id)) {
+                <input 
+                  type="text" 
+                  class="subtask-edit-input"
+                  [(ngModel)]="editingSubtaskTitle"
+                  (click)="$event.stopPropagation()"
+                  (keydown.enter)="saveSubtaskEdit(subtask); $event.stopPropagation()"
+                  (keydown.escape)="cancelSubtaskEdit(); $event.stopPropagation()"
+                  autofocus>
+                <div class="subtask-edit-actions" (click)="$event.stopPropagation()">
+                    <button class="icon-button save-button" 
+                            (click)="saveSubtaskEdit(subtask); $event.stopPropagation()"
+                            title="Save">
+                        ✓
+                    </button>
+                    <button class="icon-button cancel-button" 
+                            (click)="cancelSubtaskEdit(); $event.stopPropagation()"
+                            title="Cancel">
+                        ✕
+                    </button>
+                </div>
+                } @else {
                 <span class="subtask-title">{{ subtask.title }}</span>
                 @if (hoveredSubtaskId === subtask.id) {
                 <div class="subtask-actions" (click)="$event.stopPropagation()">
                     <button class="icon-button edit-button" 
-                            (click)="onEditSubtask(subtask)"
+                            (click)="onEditSubtask(subtask); $event.stopPropagation()"
                             title="Edit subtask">
                         <img src="assets/edit.png" alt="Edit">
                     </button>
                     <button class="icon-button delete-button" 
-                            (click)="onDeleteSubtask(subtask)"
+                            (click)="onDeleteSubtask(subtask); $event.stopPropagation()"
                             title="Delete subtask">
                         <img src="assets/delete.png" alt="Delete">
                     </button>
                 </div>
+                }
                 }
             </div>
             }
         </div>
         }
         
-        <div class="subtasks-progress">
+        <div class="subtasks-progress" (click)="$event.stopPropagation()">
             <div class="progress-bar">
                 <div class="progress-fill" [style.width.%]="progressPercentage"></div>
             </div>
