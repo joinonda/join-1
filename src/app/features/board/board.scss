@@ -14,3 +14,48 @@
   max-width: 1688px;
   padding: 0 64px;
 }
+
+@media (max-width: 1024px) {
+  .board-container {
+    padding: 16px;
+    overflow-x: visible;
+  }
+
+  .board-columns-wrapper {
+    flex-direction: column;
+    padding: 0 24px;
+    gap: 32px;
+    min-height: auto;
+    
+    app-board-columns {
+      width: 100%;
+      max-width: 600px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .board-container {
+    padding: 12px;
+  }
+
+  .board-columns-wrapper {
+    padding: 0 16px;
+    gap: 24px;
+    
+    app-board-columns {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .board-container {
+    padding: 8px;
+  }
+
+  .board-columns-wrapper {
+    padding: 0 8px;
+    gap: 20px;
+  }
+}
