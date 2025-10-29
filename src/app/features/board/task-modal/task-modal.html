@@ -2,9 +2,8 @@
 <div class="modal-overlay" (click)="onOverlayClick()">
   <div class="modal-container" (click)="onModalClick($event)">
     <button class="close-btn" (click)="onClose()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M18 6L6 18M6 6L18 18" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-      </svg>
+      <img #modalCloseIcon src="assets/board/close-default-board.png" alt="Close" width="24" height="24"
+        (mouseenter)="onSubtaskCloseHover(modalCloseIcon)" (mouseleave)="onSubtaskCloseLeave(modalCloseIcon)" />
     </button>
     <h1 class="modal-title">Add Task</h1>
 
@@ -76,8 +75,8 @@
               <div class="dropdown-wrapper">
                 <div class="dropdown-toggle-input">
                   <input type="text" [(ngModel)]="contactSearchTerm" name="contactSearch"
-                    placeholder="Select contacts to assign" (focus)="showContactDropdown = true"
-                    (input)="onContactSearch()" autocomplete="off" />
+                    (focus)="onContactInputFocus()" (blur)="onContactInputBlur()" (input)="onContactSearch()"
+                    autocomplete="off" />
                   <img #contactArrow
                     [src]="showContactDropdown ? 'assets/board/arrow-drop-up-transparent.png' : 'assets/board/arrow-drop-down-transparent.png'"
                     alt="dropdown arrow" class="dropdown-arrow" (click)="toggleContactDropdown()"
@@ -157,16 +156,14 @@
                 @if (subtaskInputFocused || newSubtaskTitle) {
                 <div class="subtask-actions">
                   <button type="button" class="icon-btn" (click)="clearSubtaskInput()">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M13 1L1 13M1 1L13 13" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                    </svg>
+                    <img #subtaskCloseIcon src="assets/board/close-default-board.png" alt="Clear subtask" width="24"
+                      height="24" (mouseenter)="onSubtaskCloseHover(subtaskCloseIcon)"
+                      (mouseleave)="onSubtaskCloseLeave(subtaskCloseIcon)" />
                   </button>
                   <div class="divider"></div>
                   <button type="button" class="icon-btn" (click)="addSubtask()">
-                    <img #subtaskCheckIcon 
-                      src="assets/board/check-dark-default.png" 
-                      alt="Add subtask"
-                      (mouseenter)="onSubtaskCheckHover(subtaskCheckIcon)"
+                    <img #subtaskCheckIcon src="assets/board/check-dark-default.png" alt="Add subtask" width="24"
+                      height="24" (mouseenter)="onSubtaskCheckHover(subtaskCheckIcon)"
                       (mouseleave)="onSubtaskCheckLeave(subtaskCheckIcon)" />
                   </button>
                 </div>

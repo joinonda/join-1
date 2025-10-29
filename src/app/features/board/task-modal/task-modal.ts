@@ -49,7 +49,7 @@ export class TaskModal implements OnInit {
 
   contacts: Contact[] = [];
   filteredContacts: Contact[] = [];
-  contactSearchTerm = '';
+  contactSearchTerm = 'Select contacts to assign';
   categories = ['Technical Task', 'User Story'];
 
   titleError = false;
@@ -87,7 +87,7 @@ export class TaskModal implements OnInit {
 
     if (!clickedInsideDropdown && this.showContactDropdown) {
       this.showContactDropdown = false;
-      this.contactSearchTerm = '';
+      this.contactSearchTerm = 'Select contacts to assign';
       this.filteredContacts = [...this.contacts];
     }
 
@@ -119,9 +119,24 @@ export class TaskModal implements OnInit {
       this.showCategoryDropdown = false;
     } else {
       // Suchfeld leeren und alle Kontakte anzeigen, wenn Dropdown geschlossen wird
-      this.contactSearchTerm = '';
+      this.contactSearchTerm = 'Select contacts to assign';
       this.filteredContacts = [...this.contacts];
     }
+  }
+
+  onContactInputFocus() {
+    if (this.contactSearchTerm === 'Select contacts to assign') {
+      this.contactSearchTerm = '';
+    }
+    this.showContactDropdown = true;
+  }
+
+  onContactInputBlur() {
+    setTimeout(() => {
+      if (this.contactSearchTerm.trim() === '') {
+        this.contactSearchTerm = 'Select contacts to assign';
+      }
+    }, 200);
   }
 
   onContactSearch() {
@@ -331,6 +346,7 @@ export class TaskModal implements OnInit {
     this.selectedContactIds = [];
     this.subtasks = [];
     this.newSubtaskTitle = '';
+    this.contactSearchTerm = 'Select contacts to assign';
     this.titleError = false;
     this.dueDateError = false;
     this.categoryError = false;
@@ -383,5 +399,13 @@ export class TaskModal implements OnInit {
 
   onSubtaskCheckLeave(imgElement: HTMLImageElement) {
     imgElement.src = 'assets/board/check-dark-default.png';
+  }
+
+  onSubtaskCloseHover(imgElement: HTMLImageElement) {
+    imgElement.src = 'assets/board/close-hover-board.png';
+  }
+
+  onSubtaskCloseLeave(imgElement: HTMLImageElement) {
+    imgElement.src = 'assets/board/close-default-board.png';
   }
 }

@@ -41,11 +41,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.1);
-  }
 
   svg path {
     transition: stroke 0.2s;
@@ -153,6 +148,10 @@ form {
     background: #ffffff;
     transition: border-color 0.2s;
 
+    &:hover {
+      border-color: #d1d1d1;
+    }
+
     &:focus {
       outline: none;
       border-color: #29abe2;
@@ -245,23 +244,22 @@ form {
   justify-content: center;
   gap: 4px;
   height: 56px;
-  transition: all 0.2s;
 
   .priority-img {
     width: 32px;
     height: 32px;
     object-fit: contain;
     flex-shrink: 0;
-    transition: filter 0.2s;
   }
 
-  &:hover {
-    background: #f4f4f4;
+  &:hover:not(.active) {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
   &.active {
     background: #ff3d00;
-    color: #000000;
+    color: #ffffff;
+    font-weight: 700;
     border: none;
     box-shadow: none;
 
@@ -275,7 +273,6 @@ form {
       background: #ffa800;
       color: #ffffff;
       font-weight: 700;
-      font-size: 21px;
       border: none;
       box-shadow: none;
 
@@ -287,7 +284,8 @@ form {
 
   &.low.active {
     background: #7ae229;
-    color: #000000;
+    color: #ffffff;
+    font-weight: 700;
     border: none;
     box-shadow: none;
 
@@ -341,7 +339,7 @@ form {
   height: 48px;
 
   &:hover {
-    border-color: #29abe2;
+    border-color: #a8a8a8;
   }
 
   &.error {
@@ -352,7 +350,6 @@ form {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
-    transition: transform 0.3s;
   }
 }
 
@@ -367,7 +364,7 @@ form {
   transition: border-color 0.2s;
 
   &:hover {
-    border-color: #29abe2;
+    border-color: #a8a8a8;
   }
 
   &:focus-within {
