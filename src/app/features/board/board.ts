@@ -7,7 +7,7 @@ import { BoardColumns } from './board-columns/board-columns';
 import { TaskModal } from './task-modal/task-modal';
 import { ShowTaskModal } from './task-modal/show-task-modal/show-task-modal';
 import { BoardHeader } from './board-header/board-header';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+
 
 @Component({
   selector: 'app-board',
@@ -126,35 +126,35 @@ export class Board implements OnInit, OnDestroy {
     });
   }
 
-  async onTaskDrop(event: CdkDragDrop<Task[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      const task = event.previousContainer.data[event.previousIndex];
-      const newStatus = this.getStatusFromContainerId(event.container.id);
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      try {
-        await this.taskService.updateTaskStatus(task.id!, newStatus);
-      } catch (error) {
-        console.error('Error updating task status:', error);
-        transferArrayItem(
-          event.container.data,
-          event.previousContainer.data,
-          event.currentIndex,
-          event.previousIndex
-        );
-      }
-    }
-  }
+  // async onTaskDrop(event: CdkDragDrop<Task[]>) {
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  //   } else {
+  //     const task = event.previousContainer.data[event.previousIndex];
+  //     const newStatus = this.getStatusFromContainerId(event.container.id);
+  //     transferArrayItem(
+  //       event.previousContainer.data,
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     );
+  //     try {
+  //       await this.taskService.updateTaskStatus(task.id!, newStatus);
+  //     } catch (error) {
+  //       console.error('Error updating task status:', error);
+  //       transferArrayItem(
+  //         event.container.data,
+  //         event.previousContainer.data,
+  //         event.currentIndex,
+  //         event.previousIndex
+  //       );
+  //     }
+  //   }
+  // }
 
-  getStatusFromContainerId(containerId: string): 'todo' | 'inprogress' | 'awaitfeedback' | 'done' {
-    return containerId as 'todo' | 'inprogress' | 'awaitfeedback' | 'done';
-  }
+  // getStatusFromContainerId(containerId: string): 'todo' | 'inprogress' | 'awaitfeedback' | 'done' {
+  //   return containerId as 'todo' | 'inprogress' | 'awaitfeedback' | 'done';
+  // }
 
   openAddTaskModal(status: string) {
     this.defaultStatus = status as 'todo' | 'inprogress' | 'awaitfeedback' | 'done';

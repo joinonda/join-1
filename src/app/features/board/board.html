@@ -6,8 +6,7 @@
     <div class="board-columns-wrapper">
         @for (column of columns; track column.id) {
         <app-board-columns [title]="column.title" [tasks]="column.tasks" [columnId]="column.id"
-            [showAddButton]="column.id !== 'done'" (addTaskClicked)="openAddTaskModal($event)"
-            (taskClicked)="openViewTaskModal($event)" (taskDropped)="onTaskDrop($event)"
+            [showAddButton]="column.id !== 'done'" (addTaskClicked)="openAddTaskModal($event)"           
             (subtaskToggled)="onSubtaskToggled($event)">
         </app-board-columns>
         }
