@@ -11,7 +11,7 @@
   height: 200px;
   display: flex;
   align-items: center;
-  padding: 30px 64px 0;
+  padding: 30px 104px 0;
   flex-shrink: 0;
 
   h1 {
@@ -30,7 +30,7 @@
 .add-task-container {
   flex: 1;
   overflow-y: auto;
-  padding: 0 64px;
+  padding: 0 104px;
   display: flex;
   flex-direction: column;
   gap: 40px;
