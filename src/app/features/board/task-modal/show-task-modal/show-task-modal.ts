@@ -1,14 +1,24 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges, inject, HostListener } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  OnChanges,
+  inject,
+  HostListener,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../../../core/interfaces/board-tasks-interface';
 import { Contact } from '../../../../core/interfaces/db-contact-interface';
 import { ContactService } from '../../../../core/services/db-contact-service';
 import { BoardTasksService } from '../../../../core/services/board-tasks-service';
 import { EditTaskModal } from './edit-task-modal/edit-task-modal';
+import { PriorityIcon } from '../../../../shared/components/priority-icon/priority-icon';
 
 @Component({
   selector: 'app-show-task-modal',
-  imports: [CommonModule, EditTaskModal],
+  imports: [CommonModule, EditTaskModal, PriorityIcon],
   templateUrl: './show-task-modal.html',
   styleUrl: './show-task-modal.scss',
   standalone: true,
@@ -46,9 +56,7 @@ export class ShowTaskModal implements OnInit, OnChanges {
 
   async loadAssignedContacts() {
     if (!this.task) return;
-    this.assignedContacts = this.contacts.filter((c) =>
-      this.task!.assignedTo.includes(c.id!)
-    );
+    this.assignedContacts = this.contacts.filter((c) => this.task!.assignedTo.includes(c.id!));
   }
 
   @HostListener('document:keydown.escape')
@@ -83,9 +91,22 @@ export class ShowTaskModal implements OnInit, OnChanges {
   }
 
   colorPalette = [
-    '#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1',
-    '#462F8A', '#FF4646', '#00BEE8', '#FF5EB3', '#FF745E', '#FFA35E',
-    '#FFC701', '#0038FF', '#C3FF2B', '#FFE62B',
+    '#FF7A00',
+    '#9327FF',
+    '#6E52FF',
+    '#FC71FF',
+    '#FFBB2B',
+    '#1FD7C1',
+    '#462F8A',
+    '#FF4646',
+    '#00BEE8',
+    '#FF5EB3',
+    '#FF745E',
+    '#FFA35E',
+    '#FFC701',
+    '#0038FF',
+    '#C3FF2B',
+    '#FFE62B',
   ];
 
   getAvatarColor(contact: Contact): string {
@@ -152,7 +173,6 @@ export class ShowTaskModal implements OnInit, OnChanges {
   }
 
   async handleTaskUpdated(updatedTask: Task) {
-
     this.task = { ...updatedTask };
     await this.loadAssignedContacts();
     this.editTask.emit(updatedTask);

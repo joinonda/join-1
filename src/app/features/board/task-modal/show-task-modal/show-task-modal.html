@@ -1,13 +1,15 @@
 @if (showModal && task) {
 <div class="modal-overlay" (click)="onOverlayClick()">
   <div class="modal-container" (click)="onModalClick($event)">
-    <button class="close-btn" (click)="onClose()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M18 6L6 18M6 6L18 18" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-      </svg>
-    </button>
-    <div class="category-badge" [ngClass]="task.category === 'User Story' ? 'user-story' : 'technical-task'">
-      {{ task.category }}
+    <div class="modal-header">
+      <div class="category-badge" [ngClass]="task.category === 'User Story' ? 'user-story' : 'technical-task'">
+        {{ task.category }}
+      </div>
+      <button class="close-btn" (click)="onClose()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
     </div>
     <h1 class="task-title">{{ task.title }}</h1>
     <p class="task-description">{{ task.description }}</p>
@@ -19,9 +21,7 @@
       <span class="label">Priority:</span>
       <div class="priority-value">
         <span>{{ getPriorityText() }}</span>
-        <span class="priority-icon" [style.color]="getPriorityColor()">
-          {{ getPriorityIcon() }}
-        </span>
+        <app-priority-icon [priority]="task.priority" [showLabel]="false"></app-priority-icon>
       </div>
     </div>
     <div class="assigned-section">
@@ -29,10 +29,12 @@
       <div class="assigned-list">
         @for (contact of assignedContacts; track contact.id) {
         <div class="assigned-contact">
-          <div class="avatar" [style.background-color]="getAvatarColor(contact)">
-            {{ getInitials(contact) }}
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="avatar" [style.background-color]="getAvatarColor(contact)">
+              {{ getInitials(contact) }}
+            </div>
+            <span class="contact-name">{{ contact.firstname }} {{ contact.lastname }}</span>
           </div>
-          <span class="contact-name">{{ contact.firstname }} {{ contact.lastname }}</span>
         </div>
         }
       </div>
@@ -43,14 +45,9 @@
       <div class="subtasks-list">
         @for (subtask of task.subtasks; track subtask.id) {
         <div class="subtask-item" (click)="toggleSubtask(subtask.id)">
-          <div class="checkbox" [class.checked]="subtask.completed">
-            @if (subtask.completed) {
-            <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-              <path d="M1 5.5L5 9.5L13 1.5" stroke="white" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-            }
-          </div>
+          <img class="checkbox"
+            [src]="subtask.completed ? '/assets/check-box/check-box-checked.png' : '/assets/check-box/check-box.png'"
+            [alt]="subtask.completed ? 'Checked' : 'Unchecked'" />
           <span class="subtask-title" [class.completed]="subtask.completed">{{ subtask.title }}</span>
         </div>
         }
@@ -79,10 +76,7 @@
   </div>
 </div>
 
-<app-edit-task-modal 
-  [showModal]="showEditModal" 
-  [task]="task"
-  (closeModal)="closeEditModal()" 
+<app-edit-task-modal [showModal]="showEditModal" [task]="task" (closeModal)="closeEditModal()"
   (taskUpdated)="handleTaskUpdated($event)">
 </app-edit-task-modal>
 }

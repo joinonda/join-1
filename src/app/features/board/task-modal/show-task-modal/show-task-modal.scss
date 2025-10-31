@@ -16,28 +16,41 @@
   background: #ffffff;
   border-radius: 30px;
   max-width: 525px;
-  width: 100%;
+  width: 525px;
   max-height: 90vh;
-  overflow-y: auto;
-  padding: 48px;
+
+  padding: 48px 40px;
   position: relative;
-  box-shadow: 0px 0px 4px 0px #00000014;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 24px;
 }
 
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 10px;
+  width: 100%;
+  align-self: stretch;
+}
+
 .close-btn {
-  position: absolute;
-  top: 32px;
-  right: 32px;
+  position: relative;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 0;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 56px;
   transition: transform 0.2s;
 
   &:hover {
@@ -49,16 +62,22 @@
   }
 
   &:hover svg path {
-    stroke: #29ABE2;
+    stroke: #29abe2;
   }
 }
 
 .category-badge {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   padding: 4px 24px;
+  gap: 10px;
   border-radius: 8px;
-  font-size: 23px;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
   font-weight: 400;
+  font-size: 23px;
+  line-height: 120%;
   width: fit-content;
   color: #ffffff;
 
@@ -72,51 +91,80 @@
 }
 
 .task-title {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
   font-size: 61px;
   font-weight: 700;
-  color: #2a3647;
+  color: #000000;
   margin: 0;
-  line-height: 1.2;
+  line-height: 120%;
   word-wrap: break-word;
+  align-self: stretch;
 }
 
 .task-description {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
   font-size: 20px;
   font-weight: 400;
-  color: #2a3647;
+  color: #000000;
   margin: 0;
-  line-height: 1.5;
+  line-height: 120%;
+  align-self: stretch;
 }
 
 .info-row {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 24px;
-  font-size: 20px;
+  padding: 0px;
+  gap: 25px;
+  width: 100%;
+  align-self: stretch;
 
   .label {
-    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 120%;
     color: #2a3647;
-    min-width: 120px;
   }
 
   .value {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
     font-weight: 400;
-    color: #2a3647;
+    font-size: 20px;
+    line-height: 120%;
+    color: #000000;
   }
 
   .priority-value {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
+    padding: 4px 18px;
+    gap: 10px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
     font-weight: 400;
-    color: #2a3647;
+    font-size: 20px;
+    line-height: 120%;
+    color: #000000;
 
-    .priority-icon {
-      font-size: 24px;
-      font-weight: 700;
+    app-priority-icon {
       display: flex;
       align-items: center;
+
+      ::ng-deep .priority-icon__img {
+        width: 28px;
+        height: 28px;
+      }
     }
   }
 }
@@ -124,42 +172,92 @@
 .assigned-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: flex-end;
+  padding: 0px;
+  gap: 8px;
+  width: 100%;
+  align-self: stretch;
 
   .label {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
     font-size: 20px;
-    font-weight: 700;
+    line-height: 120%;
     color: #2a3647;
+    width: 100%;
+    align-self: stretch;
   }
 
   .assigned-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-end;
+    padding: 0px;
+    gap: 4px;
+    width: 100%;
+    align-self: stretch;
+    max-height: 176px; // 3 Kontakte * (56px height + 4px gap) - 4px letzte gap
+    overflow-y: auto;
+
+    // Scrollbar Styling
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #c4c4c4;
+      border-radius: 10px;
+
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
   }
 
   .assigned-contact {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    padding: 7px 16px;
     gap: 16px;
+    width: 100%;
+    border-radius: 10px;
+    align-self: stretch;
 
     .avatar {
       width: 42px;
       height: 42px;
-      border-radius: 50%;
+      border-radius: 45px;
+      border: 2px solid #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
-      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
       font-weight: 400;
+      font-size: 12px;
+      line-height: 120%;
+      text-align: center;
+      color: #ffffff;
       flex-shrink: 0;
     }
 
     .contact-name {
-      font-size: 19px;
+      font-family: 'Open Sans', sans-serif;
+      font-style: normal;
       font-weight: 400;
-      color: #2a3647;
+      font-size: 19px;
+      line-height: 120%;
+      display: flex;
+      align-items: center;
+      color: #000000;
     }
   }
 }
@@ -167,54 +265,91 @@
 .subtasks-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: flex-end;
+  padding: 0px;
+  gap: 8px;
+  width: 100%;
+  max-height: 100px;
+  align-self: stretch;
 
   .label {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
     font-size: 20px;
-    font-weight: 700;
+    line-height: 120%;
     color: #2a3647;
+    width: 100%;
+    height: 24px;
+    align-self: stretch;
   }
 
   .subtasks-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 4px;
+    width: 100%;
+    height: 68px;
+    max-height: 68px;
+    overflow-y: auto;
+    align-self: stretch;
+
+    // Scrollbar Styling
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #c4c4c4;
+      border-radius: 10px;
+
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
   }
 
   .subtask-item {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    padding: 6px 16px;
     gap: 16px;
+    height: 32px;
     cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
     transition: background-color 0.2s;
+    user-select: none;
 
     &:hover {
       background-color: #f4f4f4;
     }
 
     .checkbox {
-      width: 18px;
-      height: 18px;
-      border: 2px solid #2a3647;
+      width: 24px;
+      height: 24px;
       border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       flex-shrink: 0;
-      transition: all 0.2s;
-
-      &.checked {
-        background-color: #2a3647;
-        border-color: #2a3647;
-      }
+      cursor: pointer;
+      user-select: none;
+      pointer-events: none;
+      -webkit-user-drag: none;
     }
 
     .subtask-title {
-      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
       font-weight: 400;
-      color: #2a3647;
+      font-size: 16px;
+      line-height: 120%;
+      height: 19px;
+      color: #000000;
       transition: text-decoration 0.2s;
 
       &.completed {
@@ -227,34 +362,38 @@
 
 .modal-actions {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
+  padding: 0px;
   gap: 8px;
-  margin-top: 16px;
-  padding-top: 24px;
-  border-top: 1px solid #e7e7e7;
 
   .divider {
-    width: 1px;
+    width: 0px;
     height: 24px;
-    background: #d1d1d1;
+    border: 1px solid #d1d1d1;
   }
 
   .action-btn {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
+    padding: 0px;
     gap: 8px;
-    padding: 8px 12px;
     background: none;
     border: none;
-    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
     font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
     color: #2a3647;
     cursor: pointer;
-    border-radius: 8px;
     transition: all 0.2s;
 
     &:hover {
-      background-color: #f4f4f4;
+      color: #29abe2;
 
       svg path {
         fill: #29abe2;
@@ -262,6 +401,8 @@
     }
 
     svg {
+      width: 24px;
+      height: 24px;
       transition: all 0.2s;
     }
   }
