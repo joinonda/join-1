@@ -110,7 +110,7 @@
   font-size: 20px;
   font-weight: 400;
   color: #000000;
-  margin: 0;
+  margin-bottom: 18px;
   line-height: 120%;
   align-self: stretch;
 }
@@ -127,7 +127,7 @@
   .label {
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 20px;
     line-height: 120%;
     color: #2a3647;
@@ -181,7 +181,7 @@
   .label {
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 20px;
     line-height: 120%;
     color: #2a3647;
@@ -194,7 +194,7 @@
     flex-direction: column;
     align-items: flex-end;
     padding: 0px;
-    gap: 4px;
+    // gap: 4px;
     width: 100%;
     align-self: stretch;
     max-height: 176px; // 3 Kontakte * (56px height + 4px gap) - 4px letzte gap
@@ -312,6 +312,35 @@
 
       &:hover {
         background: #a8a8a8;
+      }
+    }
+  }
+
+  .task-content-scrollable {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(90vh - 200px); 
+    padding-right: 8px; 
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+      margin: 4px 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #29abe2;
+      border-radius: 10px;
+
+      &:hover {
+        background: #1c8bb8;
       }
     }
   }

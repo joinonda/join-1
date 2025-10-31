@@ -12,48 +12,56 @@
       </button>
     </div>
     <h1 class="task-title">{{ task.title }}</h1>
-    <p class="task-description">{{ task.description }}</p>
-    <div class="info-row">
-      <span class="label">Due date:</span>
-      <span class="value">{{ formatDate(task.dueDate) }}</span>
-    </div>
-    <div class="info-row">
-      <span class="label">Priority:</span>
-      <div class="priority-value">
-        <span>{{ getPriorityText() }}</span>
-        <app-priority-icon [priority]="task.priority" [showLabel]="false"></app-priority-icon>
+    
+    <div class="task-content-scrollable">
+      <p class="task-description">{{ task.description }}</p>
+      
+      <div class="info-row">
+        <span class="label">Due date:</span>
+        <span class="value">{{ formatDate(task.dueDate) }}</span>
       </div>
-    </div>
-    <div class="assigned-section">
-      <span class="label">Assigned To:</span>
-      <div class="assigned-list">
-        @for (contact of assignedContacts; track contact.id) {
-        <div class="assigned-contact">
-          <div style="display: flex; align-items: center; gap: 16px;">
-            <div class="avatar" [style.background-color]="getAvatarColor(contact)">
-              {{ getInitials(contact) }}
+      
+      <div class="info-row">
+        <span class="label">Priority:</span>
+        <div class="priority-value">
+          <span>{{ getPriorityText() }}</span>
+          <app-priority-icon [priority]="task.priority" [showLabel]="false"></app-priority-icon>
+        </div>
+      </div>
+      
+      <div class="assigned-section">
+        <span class="label">Assigned To:</span>
+        <div class="assigned-list">
+          @for (contact of assignedContacts; track contact.id) {
+          <div class="assigned-contact">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div class="avatar" [style.background-color]="getAvatarColor(contact)">
+                {{ getInitials(contact) }}
+              </div>
+              <span class="contact-name">{{ contact.firstname }} {{ contact.lastname }}</span>
             </div>
-            <span class="contact-name">{{ contact.firstname }} {{ contact.lastname }}</span>
           </div>
+          }
         </div>
-        }
       </div>
-    </div>
-    @if (task.subtasks && task.subtasks.length > 0) {
-    <div class="subtasks-section">
-      <span class="label">Subtasks</span>
-      <div class="subtasks-list">
-        @for (subtask of task.subtasks; track subtask.id) {
-        <div class="subtask-item" (click)="toggleSubtask(subtask.id)">
-          <img class="checkbox"
-            [src]="subtask.completed ? '/assets/check-box/check-box-checked.png' : '/assets/check-box/check-box.png'"
-            [alt]="subtask.completed ? 'Checked' : 'Unchecked'" />
-          <span class="subtask-title" [class.completed]="subtask.completed">{{ subtask.title }}</span>
+      
+      @if (task.subtasks && task.subtasks.length > 0) {
+      <div class="subtasks-section">
+        <span class="label">Subtasks</span>
+        <div class="subtasks-list">
+          @for (subtask of task.subtasks; track subtask.id) {
+          <div class="subtask-item" (click)="toggleSubtask(subtask.id)">
+            <img class="checkbox"
+              [src]="subtask.completed ? '/assets/check-box/check-box-checked.png' : '/assets/check-box/check-box.png'"
+              [alt]="subtask.completed ? 'Checked' : 'Unchecked'" />
+            <span class="subtask-title" [class.completed]="subtask.completed">{{ subtask.title }}</span>
+          </div>
+          }
         </div>
-        }
       </div>
+      }
     </div>
-    }
+    
     <div class="modal-actions">
       <button class="action-btn delete" (click)="onDelete()">
         <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
