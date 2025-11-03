@@ -57,9 +57,11 @@
 @media (max-width: 1024px) {
   .board-header {
     padding: 30px 32px 0;
-    gap: 0px;
-    flex-direction: column;
-    align-items: flex-start;
+    gap: 16px;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
 
     h2 {
       font-size: 48px;
@@ -68,14 +70,13 @@
 
     .mobile-add-task-btn {
       display: flex;
-      position: relative;
-      top: 40%;
-      right: 40%;
+      margin-left: auto;
     }
 
     .board-header-actions {
+      width: 100%;
       gap: 24px;
-      justify-content: center;
+      justify-content: flex-start;
 
       .desktop-add-button,
       app-board-add-button {
@@ -88,6 +89,10 @@
 
 @media (max-width: 768px) {
 
+  .board-header {
+    width: 100%;
+  }
+
   .mobile-add-task-btn {
     width: 44px;
     height: 44px;
@@ -95,9 +100,6 @@
     margin-right: 0;
     align-self: center;
     display: flex;
-    position: relative;
-    left: -117px;
-
   }
 }
 
@@ -113,13 +115,6 @@
 
   .mobile-add-task-btn {
     left: -12px;
-
-  }
-}
-@media (max-width: 404px) {
-
-  .mobile-add-task-btn {
-    top: 9px !important;
 
   }
 }
