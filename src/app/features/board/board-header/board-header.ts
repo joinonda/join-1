@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { BoardAddButton } from './board-add-button/board-add-button';
 import { BoardSearch } from './board-search/board-search';
 
@@ -15,6 +16,9 @@ export class BoardHeader {
   @Output() addTaskClick = new EventEmitter<void>();
   @Output() searchQuery = new EventEmitter<string>();
 
+
+  constructor(private router: Router) {}
+
   onButtonClick() {
     this.addTaskClick.emit();
   }
@@ -24,6 +28,10 @@ export class BoardHeader {
   }
 
   onMobileAddTaskClick(): void {
-    this.addTaskClick.emit();
+    if (window.innerWidth < 1350) {
+      this.router.navigate(['/add-task']);
+    } else {
+      this.addTaskClick.emit();
+    }
   }
 }
