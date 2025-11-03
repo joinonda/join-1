@@ -15,14 +15,18 @@
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
 
     input {
       flex: 1;
-      padding: 13px 100px 13px 21px;
+      width: 100%;
+      padding: clamp(10px, 2vw, 13px) clamp(70px, 15vw, 100px) clamp(10px, 2vw, 13px)
+        clamp(16px, 3vw, 21px);
       border: 1px solid #d1d1d1;
       border-radius: 10px;
-      font-size: 20px;
+      font-size: clamp(14px, 3vw, 20px);
       outline: none;
+      box-sizing: border-box;
 
       &:focus {
         border-color: #29abe2;
@@ -35,10 +39,10 @@
 
     .subtask-actions {
       position: absolute;
-      right: 16px;
+      right: clamp(8px, 2vw, 16px);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: clamp(4px, 1vw, 8px);
 
       .divider {
         width: 1px;

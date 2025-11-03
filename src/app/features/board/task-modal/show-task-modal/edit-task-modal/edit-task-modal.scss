@@ -9,11 +9,14 @@
   align-items: center;
   justify-content: center;
   z-index: 1001;
+  padding: 20px;
 }
 
 .modal-container {
-  width: 525px;
+  width: 100%;
+  max-width: 525px;
   height: 930px;
+  max-height: 90vh;
   background: #ffffff;
   border-radius: 30px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
@@ -23,7 +26,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 48px 40px 48px 40px;
+  padding: 48px 15px 48px 40px;
 }
 
 .modal-header {
@@ -31,11 +34,12 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-bottom: 24px;
+  padding-bottom: clamp(22px, 4vw, 24px);
+  padding-right: clamp(12px, 4vw, 25px);
 
   .close-btn {
-    width: 32px;
-    height: 32px;
+    width: clamp(30px, 6vw, 32px);
+    height: clamp(30px, 6vw, 32px);
     background: none;
     border: none;
     border-radius: 50%;
@@ -47,8 +51,8 @@
     transition: transform 0.2s;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: clamp(22px, 5vw, 24px);
+      height: clamp(22px, 5vw, 24px);
     }
 
     &:hover {
@@ -67,8 +71,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: 464px;
-  max-height: 697px;
+  width: 100%;
   padding-right: 12px;
   box-sizing: border-box;
 
@@ -284,7 +287,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: clamp(4px, 2vw, 16px);
     width: 100%;
     height: 56px;
   }
@@ -294,7 +297,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 16px 10px;
+    padding: clamp(8px, 2vw, 16px) clamp(4px, 1vw, 10px);
     gap: 4px;
     flex: 1;
     height: 56px;
@@ -305,13 +308,13 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: 'Inter', sans-serif;
-    font-size: 20px;
+    font-size: clamp(12px, 3vw, 20px);
     font-weight: 400;
     color: #000000;
 
     .priority-img {
-      width: 32px;
-      height: 32px;
+      width: clamp(20px, 5vw, 32px);
+      height: clamp(20px, 5vw, 32px);
       object-fit: contain;
       flex-shrink: 0;
     }
@@ -788,17 +791,18 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-top: 24px;
+  padding-top: clamp(22px, 4vw, 24px);
+  padding-right: clamp(12px, 4vw, 25px);
 
   .btn-ok {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 16px;
+    padding: clamp(15px, 3vw, 16px);
     gap: 4px;
-    width: 89px;
-    height: 57px;
+    min-width: clamp(85px, 15vw, 89px);
+    height: clamp(54px, 10vw, 57px);
     background: #2a3647;
     border-radius: 10px;
     border: none;
@@ -807,13 +811,13 @@
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 21px;
+    font-size: clamp(19px, 4vw, 21px);
     line-height: 120%;
     color: #ffffff;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: clamp(22px, 5vw, 24px);
+      height: clamp(22px, 5vw, 24px);
     }
 
     &:hover {
@@ -824,6 +828,20 @@
 
     &:active {
       transform: translateY(0);
+    }
+  }
+}
+
+// Media Query: Text in Priority-Buttons verstecken bei schmalen Modals
+@media (max-width: 400px) {
+  .priority-field {
+    .priority-btn {
+      font-size: 0;
+      padding: 12px;
+
+      .priority-img {
+        margin: 0;
+      }
     }
   }
 }

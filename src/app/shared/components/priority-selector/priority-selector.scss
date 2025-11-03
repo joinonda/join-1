@@ -19,20 +19,20 @@
 
   .priority-buttons {
     display: flex;
-    gap: 16px;
+    gap: clamp(4px, 2vw, 16px);
 
     .priority-btn {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 16px;
+      gap: clamp(2px, 1vw, 8px);
+      padding: clamp(8px, 2vw, 16px) clamp(4px, 1vw, 16px);
       background: white;
       border: 1px solid #d1d1d1;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 20px;
+      font-size: clamp(12px, 3vw, 20px);
       font-weight: 400;
       color: #2a3647;
       transition: all 0.2s ease;
@@ -42,8 +42,8 @@
       }
 
       .priority-img {
-        width: 32px;
-        height: 32px;
+        width: clamp(20px, 5vw, 32px);
+        height: clamp(20px, 5vw, 32px);
         object-fit: contain;
         flex-shrink: 0;
       }
@@ -88,6 +88,19 @@
         .priority-img {
           filter: brightness(0) invert(1);
         }
+      }
+    }
+  }
+}
+
+// Media Query: Text verstecken bei schmalen Screens (nur Icons anzeigen)
+@media (max-width: 400px) {
+  .priority-group {
+    .priority-btn {
+      padding: 12px;
+
+      .priority-text {
+        display: none;
       }
     }
   }

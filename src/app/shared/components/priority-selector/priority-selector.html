@@ -2,16 +2,16 @@
   <label class="priority-label">Priority</label>
   <div class="priority-buttons">
     <button type="button" class="priority-btn" [class.active]="priority === 'urgent'" (click)="setPriority('urgent')">
-      Urgent
+      <span class="priority-text">Urgent</span>
       <img src="assets/board/urgent.png" alt="Urgent" class="priority-img" />
     </button>
     <button type="button" class="priority-btn medium" [class.active]="priority === 'medium'"
       (click)="setPriority('medium')">
-      Medium
+      <span class="priority-text">Medium</span>
       <img src="assets/board/medium.png" alt="Medium" class="priority-img" />
     </button>
     <button type="button" class="priority-btn low" [class.active]="priority === 'low'" (click)="setPriority('low')">
-      Low
+      <span class="priority-text">Low</span>
       <img src="assets/board/low.png" alt="Low" class="priority-img" />
     </button>
   </div>
