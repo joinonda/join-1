@@ -39,9 +39,18 @@
                     <label for="dueDate">Due date<span class="required">*</span></label>
                     <div class="input-wrapper">
                         <div class="date-input-container">
-                            <input type="text" [(ngModel)]="dueDate" name="dueDate" placeholder="dd/mm/yyyy"
-                                [class.error]="dueDateError" (input)="formatDateInput($event)"
-                                (change)="dueDateError = false" maxlength="10" pattern="[0-9\/]*" inputmode="numeric"
+                            <input 
+                                type="text" 
+                                id="dueDate"
+                                [(ngModel)]="dueDate" 
+                                name="dueDate" 
+                                placeholder="dd/mm/yyyy"
+                                [class.error]="dueDateError" 
+                                (input)="formatDateInput($event)"
+                                (change)="dueDateError = false" 
+                                maxlength="10" 
+                                pattern="[0-9\/]*" 
+                                inputmode="numeric"
                                 required />
                             <button type="button" class="calendar-icon-btn" (click)="openDatePicker()">
                                 <svg class="calendar-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -51,8 +60,15 @@
                                         fill="#2A3647" />
                                 </svg>
                             </button>
-                            <input type="date" class="hidden-date-picker" [(ngModel)]="hiddenDateValue"
-                                name="hiddenDate" (change)="onDatePickerChange($event)" [min]="minDate" #datePicker />
+                            <input 
+                                type="date" 
+                                id="hiddenDate"
+                                class="hidden-date-picker" 
+                                [(ngModel)]="hiddenDateValue"
+                                name="hiddenDate" 
+                                (change)="onDatePickerChange($event)" 
+                                [min]="minDate" 
+                                #datePicker />
                         </div>
                         <span class="field-error" [class.visible]="dueDateError">{{ dueDateErrorMessage }}</span>
                     </div>
@@ -66,8 +82,8 @@
             <div class="form-right">
                 <!-- Priority Field -->
                 <div class="form-field priority-field">
-                    <label>Priority</label>
-                    <div class="priority-buttons">
+                    <label id="priority-label">Priority</label>
+                    <div class="priority-buttons" role="group" aria-labelledby="priority-label">
                         <button type="button" class="priority-btn" [class.active]="priority === 'urgent'"
                             (click)="setPriority('urgent')">
                             Urgent
@@ -91,9 +107,15 @@
                     <label for="assignedTo">Assigned to</label>
                     <div class="dropdown-wrapper">
                         <div class="dropdown-toggle-input">
-                            <input type="text" [(ngModel)]="contactSearchTerm" name="contactSearch"
-                                (focus)="onContactInputFocus()" (blur)="onContactInputBlur()"
-                                (input)="onContactSearch()" autocomplete="off" />
+                            <input 
+                                type="text" 
+                                id="assignedTo"
+                                [(ngModel)]="contactSearchTerm" 
+                                name="contactSearch"
+                                (focus)="onContactInputFocus()" 
+                                (blur)="onContactInputBlur()"
+                                (input)="onContactSearch()" 
+                                autocomplete="off" />
                             <img #contactArrow
                                 [src]="showContactDropdown ? 'assets/board/arrow-drop-up-transparent.png' : 'assets/board/arrow-drop-down-transparent.png'"
                                 alt="dropdown arrow" class="dropdown-arrow" (click)="toggleContactDropdown()"
@@ -146,10 +168,16 @@
 
                 <!-- Category Field -->
                 <div class="form-field">
-                    <label for="category">Category<span class="required">*</span></label>
+                    <label id="category-label">Category<span class="required">*</span></label>
                     <div class="input-wrapper">
                         <div class="dropdown-wrapper">
-                            <div class="dropdown-toggle" (click)="toggleCategoryDropdown()"
+                            <div 
+                                class="dropdown-toggle" 
+                                role="combobox"
+                                aria-labelledby="category-label"
+                                aria-expanded="{{showCategoryDropdown}}"
+                                tabindex="0"
+                                (click)="toggleCategoryDropdown()"
                                 [class.error]="categoryError">
                                 <span>{{ category || 'Select task category' }}</span>
                                 <img #categoryArrow
@@ -177,8 +205,14 @@
                 <div class="form-field">
                     <label for="subtasks">Subtasks</label>
                     <div class="subtask-input-wrapper">
-                        <input type="text" [(ngModel)]="newSubtaskTitle" name="newSubtask" placeholder="Add new subtask"
-                            (keyup.enter)="addSubtask()" (focus)="subtaskInputFocused = true"
+                        <input 
+                            type="text" 
+                            id="subtasks"
+                            [(ngModel)]="newSubtaskTitle" 
+                            name="newSubtask" 
+                            placeholder="Add new subtask"
+                            (keyup.enter)="addSubtask()" 
+                            (focus)="subtaskInputFocused = true"
                             (blur)="onSubtaskInputBlur()" />
                         @if (subtaskInputFocused || newSubtaskTitle) {
                         <div class="subtask-actions">
