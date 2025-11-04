@@ -25,7 +25,22 @@
     width: auto;
     height: auto;
   }
+
+  @media (max-height: 700px) {
+    height: 120px;
+    padding-top: 10px;
+  }
+
+  @media (max-height: 600px) {
+    height: 100px;
+    padding-top: 5px;
+
+    h1 {
+      font-size: clamp(36px, 6vw, 47px);
+    }
+  }
 }
+
 textarea {
   resize: vertical;
   
