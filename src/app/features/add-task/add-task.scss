@@ -26,7 +26,17 @@
     height: auto;
   }
 }
-
+textarea {
+  resize: vertical;
+  
+  // ✅ Resize-Handle verstecken (Webkit/Blink)
+  &::-webkit-resizer {
+    display: none;
+  }
+  
+  // ✅ Firefox
+  scrollbar-width: thin;
+}
 // Add Task Container
 .add-task-container {
   flex: 1;
