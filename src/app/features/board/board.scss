@@ -1,14 +1,12 @@
 .board-container {
   height: 100%;
-  // max-width: 1688px;
   overflow-x: auto;
 
-  // Scrollleiste komplett unsichtbar machen
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE und Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
   }
 }
 
@@ -26,30 +24,9 @@
   }
 }
 
-// @media (max-width: 1024px) {
-//   .board-container {
-//     padding: 16px;
-//     overflow-x: visible;
-//   }
-//   .task-card
-
-//   .board-columns-wrapper {
-//     flex-direction: column;
-//     padding: 0 24px;
-//     gap: 32px;
-//     min-height: auto;
-
-//     app-board-columns {
-//       width: 100%;
-//       max-width: 600px;
-//     }
-//   }
-// }
-
 @media (max-width: 1385px) {
   .board-container {
     padding: 12px 0px 12px 12px;
-    // overflow-x: visible;
   }
 
   .board-columns-wrapper {
@@ -64,7 +41,6 @@
         display: flex;
         flex-direction: row;
         overflow-x: auto;
-        // overflow-y: hidden;
         gap: 16px;
         padding-bottom: 12px;
         scroll-snap-type: x mandatory;
@@ -124,12 +100,11 @@
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
 
-        // ✅ Scrollbar verstecken aber funktional
-        scrollbar-width: none; // Firefox
-        -ms-overflow-style: none; // IE/Edge
+        scrollbar-width: none;
+        -ms-overflow-style: none;
 
         &::-webkit-scrollbar {
-          display: none; // Chrome, Safari, Opera
+          display: none;
         }
 
         > div {
