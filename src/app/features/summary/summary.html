@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="metric-content">
-                <div class="metric-number">0</div>
+                <div class="metric-number">{{ todoCount }}</div>
                 <div class="metric-label">To-do</div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="metric-content">
-                <div class="metric-number">0</div>
+                <div class="metric-number">{{ doneCount }}</div>
                 <div class="metric-label">Done</div>
             </div>
         </div>
@@ -36,30 +36,30 @@
                     <img src="assets/summary/prio-signup.png" alt="Urgent icon" class="metric-icon">
                 </div>
                 <div class="metric-content">
-                    <div class="metric-number">0</div>
+                    <div class="metric-number">{{ urgentCount }}</div>
                     <div class="metric-label">Urgent</div>
                 </div>
             </div>
             <div class="divider-vertical"></div>
             <div class="deadline-info">
-                <div class="deadline-date">November 11, 2025</div>
+                <div class="deadline-date">{{ upcomingDeadline }}</div>
                 <div class="deadline-label">Upcoming Deadline</div>
             </div>
         </div>
 
         <div class="bottom-row">
             <div class="metric-card">
-                <div class="metric-number">0</div>
+                <div class="metric-number">{{ tasksInBoardCount }}</div>
                 <div class="metric-label">Tasks in<br>Board</div>
             </div>
 
             <div class="metric-card">
-                <div class="metric-number">0</div>
+                <div class="metric-number">{{ tasksInProgressCount }}</div>
                 <div class="metric-label">Tasks In<br>Progress</div>
             </div>
 
             <div class="metric-card">
-                <div class="metric-number">0</div>
+                <div class="metric-number">{{ awaitingFeedbackCount }}</div>
                 <div class="metric-label">Awaiting<br>Feedback</div>
             </div>
         </div>
