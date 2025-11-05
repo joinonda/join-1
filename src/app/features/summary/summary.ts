@@ -11,6 +11,7 @@ import { Timestamp } from '@angular/fire/firestore';
   templateUrl: './summary.html',
   styleUrl: './summary.scss'
 })
+
 export class Summary implements OnInit, OnDestroy {
   private boardTasksService = inject(BoardTasksService);
   private tasksSubscription?: Subscription;
