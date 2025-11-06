@@ -6,9 +6,31 @@
             <button class="help-btn" aria-label="Help">
                 <img src="assets/help-icon.png" alt="Help" class="help-icon">
             </button>
-            <div class="user-avatar">
-                <span class="avatar-text">SM</span>
+            <div class="user-menu">
+                <div class="user-avatar" (click)="toggleDropdown()" [attr.aria-label]="userName">
+                    <span class="avatar-text">{{ userInitials }}</span>
+                </div>
+                
+                <!-- ✅ Dropdown Menu INNERHALB von .user-menu -->
+                @if (showDropdown) {
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" (click)="navigateToLegalNotice()">
+                        Legal Notice
+                    </button>
+                    <button class="dropdown-item" (click)="navigateToPrivacyPolicy()">
+                        Privacy Policy
+                    </button>
+                    <button class="dropdown-item" (click)="logout()">
+                        Log out
+                    </button>
+                </div>
+                }
             </div>
         </div>
     </div>
+
+    <!-- ✅ Overlay AUSSERHALB von .user-menu -->
+    @if (showDropdown) {
+    <div class="dropdown-overlay" (click)="closeDropdown()"></div>
+    }
 </header>

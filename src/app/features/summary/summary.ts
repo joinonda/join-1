@@ -1,10 +1,12 @@
-import { Component,  OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BoardTasksService } from '../../core/services/board-tasks-service';
 import { Task } from '../../core/interfaces/board-tasks-interface';
 import { Subscription } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
+import { AuthService } from '../../core/services/auth-service';
+
 
 @Component({
   selector: 'app-summary',
@@ -17,6 +19,7 @@ export class Summary implements OnInit, OnDestroy {
   private boardTasksService = inject(BoardTasksService);
   private router = inject(Router);
   private tasksSubscription?: Subscription;
+  private authService = inject(AuthService);
 
   todoIconSrc: string = 'assets/summary/edit-white-signup.png';
   doneIconSrc: string = 'assets/summary/done-checkmark.png';
@@ -29,8 +32,13 @@ export class Summary implements OnInit, OnDestroy {
   awaitingFeedbackCount: number = 0;
   upcomingDeadline: string = 'No deadline';
 
+  greeting = '';
+  username = 'Guest';
+
   ngOnInit(): void {
     this.loadTaskStatistics();
+    this.loadUserData();
+    this.setGreeting();
   }
 
   ngOnDestroy(): void {
@@ -45,6 +53,36 @@ export class Summary implements OnInit, OnDestroy {
         this.calculateStatistics(tasks);
       }
     );
+  }
+
+  loadUserData() {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      this.username = currentUser.name || 'User';
+    } else {
+      this.username = 'Guest';
+    }
+  }
+
+  setGreeting() {
+    const hour = new Date().getHours();
+
+    if (hour >= 5 && hour < 12) {
+      this.greeting = 'Good morning';
+    } else if (hour >= 12 && hour < 18) {
+      this.greeting = 'Good afternoon';
+    } else if (hour >= 18 && hour < 22) {
+      this.greeting = 'Good evening';
+    } else {
+      this.greeting = 'Good night';
+    }
+  }
+
+
+
+  private parseDate(dateString: string): Date {
+    const [day, month, year] = dateString.split('/').map((num) => parseInt(num, 10));
+    return new Date(year, month - 1, day);
   }
 
   private calculateStatistics(tasks: Task[]): void {
@@ -65,7 +103,7 @@ export class Summary implements OnInit, OnDestroy {
 
   private calculateUpcomingDeadline(tasks: Task[]): string {
     const tasksWithDueDate = tasks.filter(t => t.dueDate && t.status !== 'done');
-    
+
     if (tasksWithDueDate.length === 0) {
       return 'No deadline';
     }
@@ -91,10 +129,10 @@ export class Summary implements OnInit, OnDestroy {
 
   private formatDeadline(dueDate: string | Timestamp): string {
     const date = this.getDateFromDueDate(dueDate);
-    const options: Intl.DateTimeFormatOptions = { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     };
     return date.toLocaleDateString('en-US', options);
   }
