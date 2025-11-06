@@ -6,6 +6,11 @@
   align-items: center;
   justify-content: center;
   position: relative;
+
+  @media (max-height: 800px) {
+    min-height: 65vh;
+    margin-top: 10px;
+  }
 }
 
 // Header Actions (Sign Up Button)
@@ -57,6 +62,10 @@
     width: 100%;
   }
 
+  @media (max-height: 800px) {
+    margin-top: 10px;
+  }
+
   .not-user-text {
     font-size: clamp(14px, 3.5vw, 16px);
     color: #2a3647;
@@ -101,8 +110,8 @@
 
   // Reduzierte Abstände bei niedriger Bildschirmhöhe
   @media (max-height: 800px) {
-    padding: clamp(16px, 3vh, 32px) clamp(20px, 4vw, 60px);
-    gap: clamp(8px, 2vh, 16px);
+    padding: 20px 40px;
+    gap: 10px;
   }
 
   h1 {
@@ -120,7 +129,7 @@
     }
 
     @media (max-height: 800px) {
-      font-size: clamp(28px, 6vh, 48px);
+      font-size: 36px;
     }
   }
 
@@ -136,7 +145,7 @@
     }
 
     @media (max-height: 800px) {
-      margin: 0 0 clamp(4px, 1vh, 12px) 0;
+      margin: 0 0 6px 0;
     }
   }
 }
@@ -150,7 +159,7 @@
   width: 100%;
 
   @media (max-height: 800px) {
-    gap: clamp(12px, 3vh, 24px);
+    gap: 16px;
   }
 }
 
@@ -216,8 +225,8 @@
   }
 
   @media (max-height: 800px) {
-    gap: clamp(12px, 3vh, 28px);
-    margin-top: clamp(4px, 1vh, 12px);
+    gap: 16px;
+    margin-top: 8px;
   }
 
   button {
@@ -244,9 +253,9 @@
     }
 
     @media (max-height: 800px) {
-      height: clamp(36px, 6vh, 48px);
-      padding: clamp(8px, 2vh, 15px) clamp(12px, 3vw, 24px);
-      font-size: clamp(16px, 3vh, 21px);
+      height: 40px;
+      padding: 10px 16px;
+      font-size: 16px;
     }
   }
 
