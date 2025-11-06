@@ -29,7 +29,6 @@ export class App implements OnInit {
       this.contacts = contacts;
     });
 
-    // Listen to route changes
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
