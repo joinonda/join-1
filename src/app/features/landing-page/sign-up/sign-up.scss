@@ -43,6 +43,20 @@
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 900px) and (min-width: 750px) {
+    padding: 5px clamp(20px, 5vw, 50px);
+    gap: 0px;
+  
+    h1 {
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 0 0 5px 0;
+    }
+  
+    .underline {
+      margin: 0 auto clamp(12px, 3vw, 20px) auto;
+    }
+  }
+
   @media (max-width: 955px) {
     width: clamp(280px, 82vw, 500px);
     max-width: 500px;
@@ -100,7 +114,15 @@
   justify-content: center;
   transition: transform 0.2s;
 
+  @media (max-width: 900px) {
+    top: 30px;
+  }
+
   @media (max-width: 768px) {
+    top: 45px;
+  }
+
+  @media (max-width: 750px) {
     top: 55px;
   }
 
