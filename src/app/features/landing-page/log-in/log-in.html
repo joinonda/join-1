@@ -1,17 +1,16 @@
-<!-- Sign Up Button rechts oben (Desktop/Tablet) -->
 <div class="header-actions">
     <span class="not-user-text">Not a Join user?</span>
     <button type="button" class="signup-btn" (click)="navigateToSignUp()">Sign up</button>
 </div>
 
 <div class="login-container">
-    <!-- Login Card -->
+
     <div class="login-card">
         <h1>Log in</h1>
         <div class="underline"></div>
 
         <form class="login-form" #loginForm="ngForm">
-            <!-- Email Input -->
+
             <div class="input-group">
                 <input 
                     type="email" 
@@ -26,7 +25,6 @@
                     (blur)="validateEmail()" />
                 <img src="assets/signup/mail-signup.png" alt="Email" class="input-icon" />
                 
-                <!-- ✅ Error Message Placeholder -->
                 <div class="error-message">
                     @if (emailError) {
                         <span>{{ emailError }}</span>
@@ -34,7 +32,6 @@
                 </div>
             </div>
 
-            <!-- Password Input -->
             <div class="input-group">
                 <input 
                     type="password" 
@@ -47,7 +44,6 @@
                     (blur)="validatePassword()" />
                 <img src="assets/signup/lock-signup.png" alt="Password" class="input-icon" />
                 
-                <!-- ✅ Error Message Placeholder -->
                 <div class="error-message">
                     @if (passwordError) {
                         <span>{{ passwordError }}</span>
@@ -55,14 +51,12 @@
                 </div>
             </div>
 
-            <!-- ✅ General Error Message -->
             @if (errorMessage) {
                 <div class="general-error">
                     {{ errorMessage }}
                 </div>
             }
 
-            <!-- Buttons -->
             <div class="button-group">
                 <button 
                     type="button" 
@@ -87,7 +81,6 @@
     </div>
 </div>
 
-<!-- Sign Up Button unter der Card (Mobile) -->
 <div class="header-actions-mobile">
     <span class="not-user-text">Not a Join user?</span>
     <button type="button" class="signup-btn" (click)="navigateToSignUp()">Sign up</button>

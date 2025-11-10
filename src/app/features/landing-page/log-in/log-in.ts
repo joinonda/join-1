@@ -23,7 +23,7 @@ export class LogIn {
   private authService = inject(AuthService);
 
   /**
-   * ✅ Email-Validierung
+   *  
    */
   validateEmail(): void {
     this.emailError = '';
@@ -33,7 +33,6 @@ export class LogIn {
       return;
     }
 
-    // Email-Format validieren
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.email)) {
       this.emailError = 'Please enter a valid email address';
@@ -42,7 +41,7 @@ export class LogIn {
   }
 
   /**
-   * ✅ Password-Validierung
+   *  
    */
   validatePassword(): void {
     this.passwordError = '';
@@ -59,34 +58,25 @@ export class LogIn {
   }
 
   /**
-   * ✅ Login mit Validierung
+   * 
    */
   async onLogin() {
-    // Felder validieren
     this.validateEmail();
     this.validatePassword();
-
-    // Bei Fehlern abbrechen
     if (this.emailError || this.passwordError) {
       return;
     }
-
     this.isLoading = true;
     this.errorMessage = '';
-
     const result = await this.authService.login({
       email: this.email,
       password: this.password
     });
-
     this.isLoading = false;
-
     if (result.success) {
       this.router.navigate(['/summary']);
     } else {
       this.errorMessage = result.message;
-      
-      // Spezifische Fehler zu Feldern zuordnen
       if (result.message.includes('email')) {
         this.emailError = 'Invalid email or password';
       } else if (result.message.includes('password')) {
@@ -96,7 +86,7 @@ export class LogIn {
   }
 
   /**
-   * Guest Login
+   * 
    */
   onGuestLogin() {
     this.isLoading = true;
@@ -119,14 +109,14 @@ export class LogIn {
   }
 
   /**
-   * Navigation zu Sign Up
+   * 
    */
   navigateToSignUp() {
     this.router.navigate(['/signup']);
   }
 
   /**
-   * ✅ Fehler beim Tippen zurücksetzen
+   * 
    */
   onEmailInput(): void {
     if (this.emailError) {
