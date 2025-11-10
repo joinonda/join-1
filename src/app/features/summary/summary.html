@@ -1,15 +1,12 @@
 <div class="summary-page">
-    <!-- Header Container -->
     <div class="header-container">
         <h2>Join 360</h2>
         <div class="divider"></div>
         <p>Key Metrics at a Glance</p>
     </div>
 
-    <!-- Main Container -->
     <div class="main-container">
         <div class="metrics-grid">
-            <!-- Top Row -->
             <div class="top-row">
                 <div class="metric-card" (click)="navigateToBoard('todo')" (mouseenter)="onTodoHover(true)"
                     (mouseleave)="onTodoHover(false)">
@@ -34,7 +31,6 @@
                 </div>
             </div>
 
-            <!-- Urgent Card -->
             <div class="metric-card urgent-card" (click)="navigateToBoard('urgent')">
                 <div class="deadline-section">
                     <div class="icon-placeholder urgent-icon">
@@ -52,7 +48,6 @@
                 </div>
             </div>
 
-            <!-- Bottom Row -->
             <div class="bottom-row">
                 <div class="metric-card" (click)="navigateToBoard('board')">
                     <div class="metric-content">

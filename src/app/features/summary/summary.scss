@@ -1,5 +1,5 @@
 * {
-  margin: 0px;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
@@ -17,13 +17,8 @@ body {
   max-width: 1688px;
   overflow: hidden;
   animation: fadeInSummary 0.8s ease-in;
-
-  @media (max-width: 1250px) {
-    animation: fadeInSummary 0.8s ease-in;
-  }
 }
 
-// Header Container
 .header-container {
   height: 200px;
   display: flex;
@@ -33,12 +28,9 @@ body {
   flex-shrink: 0;
 
   h2 {
-    font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-style: normal;
     font-size: clamp(47px, 8vw, 61px);
     line-height: 120%;
-    letter-spacing: 0;
     margin: 0;
   }
 
@@ -46,16 +38,12 @@ body {
     width: 3px;
     height: 59px;
     background-color: #29abe2;
-    opacity: 1;
   }
 
   p {
-    font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-style: normal;
     font-size: clamp(20px, 4vw, 27px);
     line-height: 120%;
-    letter-spacing: 0;
     margin: 0;
   }
 
@@ -76,7 +64,6 @@ body {
     p {
       order: 2;
     }
-
     h2 {
       order: 1;
     }
@@ -97,7 +84,6 @@ body {
   }
 }
 
-// Main Container
 .main-container {
   display: flex;
   gap: 60px;
@@ -105,7 +91,6 @@ body {
   padding: 0 clamp(20px, 6vw, 104px);
 }
 
-// Metrics Grid (Frame 71)
 .metrics-grid {
   position: relative;
   width: 560px;
@@ -122,10 +107,9 @@ body {
   }
 }
 
-// Top Row (Frame 65)
-.top-row {
+.top-row,
+.bottom-row {
   display: flex;
-  flex-direction: row;
   gap: 32px;
   width: 560px;
   height: 168px;
@@ -133,18 +117,44 @@ body {
   @media (max-width: 650px) {
     width: 100%;
     height: auto;
-    gap: clamp(16px, 4.9vw, 32px);
     justify-content: space-between;
   }
 }
 
-// Metric Card
+.top-row {
+  @media (max-width: 650px) {
+    gap: clamp(16px, 4.9vw, 32px);
+  }
+}
+
+.bottom-row {
+  gap: 28px;
+
+  @media (max-width: 650px) {
+    gap: clamp(14px, 4.3vw, 28px);
+  }
+
+  .metric-card {
+    flex-direction: column;
+    padding: 25px 0;
+    gap: 13px;
+    width: 168px;
+    height: 168px;
+
+    @media (max-width: 650px) {
+      padding: clamp(13px, 3.8vw, 25px) 0;
+      gap: clamp(7px, 2vw, 13px);
+      width: clamp(87px, 25.8vw, 168px);
+      height: clamp(87px, 25.8vw, 168px);
+    }
+  }
+}
+
 .metric-card {
   background: #ffffff;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 38px 19px;
@@ -199,15 +209,12 @@ body {
       gap: clamp(35px, 6vh, 61px);
     }
 
-    &:hover {
-      .icon-placeholder.urgent-icon {
-        background-color: #ff3d00;
-      }
+    &:hover .icon-placeholder.urgent-icon {
+      background-color: #ff3d00;
     }
   }
 }
 
-// Icon Placeholder (Ellipse 4)
 .icon-placeholder {
   width: 69px;
   height: 69px;
@@ -230,23 +237,10 @@ body {
   }
 
   &.urgent-icon {
-    width: 69px;
-    height: 69px;
     background-color: #ff3d00;
-
-    @media (max-width: 650px) {
-      width: clamp(36px, 10.6vw, 69px);
-      height: clamp(36px, 10.6vw, 69px);
-    }
-
-    @media (max-height: 800px) {
-      width: clamp(40px, 7vh, 69px);
-      height: clamp(40px, 7vh, 69px);
-    }
   }
 }
 
-// Metric Icon
 .metric-icon {
   width: 32px;
   height: 32px;
@@ -259,21 +253,15 @@ body {
   }
 }
 
-// Metric Content (Frame 62/60)
 .metric-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  gap: 0;
 }
 
-// Metric Number
 .metric-number {
-  font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-style: normal;
   font-size: 64px;
   line-height: 120%;
   text-align: center;
@@ -285,11 +273,8 @@ body {
   }
 }
 
-// Metric Label
 .metric-label {
-  font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 20px;
   line-height: 120%;
   text-align: center;
@@ -301,12 +286,9 @@ body {
   }
 }
 
-// Deadline Section (Frame 67)
 .deadline-section {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  padding: 0;
   gap: 18px;
 
   @media (max-width: 650px) {
@@ -314,9 +296,8 @@ body {
   }
 }
 
-// Divider Vertical (Vector 5)
 .divider-vertical {
-  width: 0px;
+  width: 0;
   height: 102px;
   border: 1px solid #d1d1d1;
   transition: border-color 0.3s ease;
@@ -326,12 +307,10 @@ body {
   }
 }
 
-// Deadline Info (Frame 68)
 .deadline-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0;
   gap: 13px;
 
   @media (max-width: 650px) {
@@ -339,11 +318,8 @@ body {
   }
 }
 
-// Deadline Date
 .deadline-date {
-  font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-style: normal;
   font-size: 21px;
   line-height: 120%;
   color: #2a3647;
@@ -354,84 +330,15 @@ body {
   }
 }
 
-// Deadline Label
 .deadline-label {
-  font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 16px;
   line-height: 120%;
   color: #2a3647;
   transition: color 0.3s ease;
-
-  @media (max-width: 650px) {
-    font-size: 16px; // Bleibt bei 16px als Minimum
-  }
 }
 
-// Bottom Row (Frame 64)
-.bottom-row {
-  display: flex;
-  flex-direction: row;
-  gap: 28px;
-  width: 560px;
-  height: 168px;
-
-  @media (max-width: 650px) {
-    width: 100%;
-    height: auto;
-    gap: clamp(14px, 4.3vw, 28px);
-    justify-content: space-between;
-  }
-
-  .metric-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 25px 0;
-    gap: 13px;
-    width: 168px;
-    height: 168px;
-
-    @media (max-width: 650px) {
-      padding: clamp(13px, 3.8vw, 25px) 0;
-      gap: clamp(7px, 2vw, 13px);
-      width: clamp(87px, 25.8vw, 168px);
-      height: clamp(87px, 25.8vw, 168px);
-    }
-  }
-
-  .metric-number {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-style: normal;
-    font-size: 64px;
-    line-height: 120%;
-    text-align: center;
-
-    @media (max-width: 650px) {
-      font-size: clamp(33px, 9.8vw, 64px);
-    }
-  }
-
-  .metric-label {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 20px;
-    line-height: 120%;
-    text-align: center;
-
-    @media (max-width: 650px) {
-      font-size: clamp(16px, 3.1vw, 20px);
-    }
-  }
-}
-
-// Greeting Section
 .greeting {
-  text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -440,23 +347,17 @@ body {
   min-height: 500px;
 
   p {
-    font-family: 'Inter', sans-serif;
     font-weight: 500;
-    font-style: normal;
     font-size: 47px;
     line-height: 120%;
-    letter-spacing: 0;
     margin: 0;
   }
 
   .username {
     color: #29abe2;
-    font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-style: normal;
     font-size: 64px;
     line-height: 120%;
-    letter-spacing: 0;
   }
 
   @media (max-width: 1250px) {
@@ -464,7 +365,6 @@ body {
   }
 }
 
-// Fade-in Animation für Summary Seite
 @keyframes fadeInSummary {
   from {
     opacity: 0;
