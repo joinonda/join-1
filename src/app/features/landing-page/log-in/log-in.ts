@@ -19,12 +19,11 @@ export class LogIn {
   emailError = '';
   passwordError = '';
   isLoading = false;
-
   showWelcome = false;
   welcomeUserName = '';
   timeOfDay = 'morning';
-
   capsLockOn = false;
+
 
   private router = inject(Router);
   private authService = inject(AuthService);
@@ -90,7 +89,7 @@ export class LogIn {
     this.isLoading = false;
 
     if (result.success) {
-      if (window.innerWidth < 1169 && result.user?.name) {
+      if (window.innerWidth < 1025 && result.user?.name) {
         this.showWelcomeAnimation(result.user.name);
       } else {
         this.router.navigate(['/summary']);
@@ -119,7 +118,7 @@ export class LogIn {
     this.authService['currentUserSubject'].next(guestUser);
     setTimeout(() => {
       this.isLoading = false;
-      if (window.innerWidth < 1169) {
+      if (window.innerWidth < 1025) {
         this.showWelcomeAnimation('Guest User');
       } else {
         this.router.navigate(['/summary']);

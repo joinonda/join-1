@@ -356,7 +356,7 @@
   animation: fadeIn 0.3s ease-in;
 
   // Nur auf Mobile anzeigen
-  @media (min-width: 1169px) {
+  @media (min-width: 1025px) {
     display: none;
   }
 
