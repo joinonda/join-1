@@ -1,4 +1,3 @@
-
 @if (!isLoggedIn) {
 <nav class="navbar">
     <div class="navbar-header">
@@ -10,6 +9,17 @@
             <a routerLink="/login" routerLinkActive="active" class="nav-link">
                 <img src="assets/login.png" alt="Summary" class="nav-icon2" />
                 <span>Log In</span>
+            </a>
+        </li>
+        <li class="nav-spacer"></li>
+        <li class="nav-footer-item">
+            <a routerLink="/privacy-policy" routerLinkActive="active" class="nav-link footer-link-mobile">
+                <span>Privacy Policy</span>
+            </a>
+        </li>
+        <li class="nav-footer-item">
+            <a routerLink="/legal-notice" routerLinkActive="active" class="nav-link footer-link-mobile">
+                <span>Legal Notice</span>
             </a>
         </li>
     </ul>
