@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowTaskModal } from './show-task-modal';
+import { TaskCardEditFormFields } from './task-card-edit-form-fields';
 
-describe('ShowTaskModal', () => {
-  let component: ShowTaskModal;
-  let fixture: ComponentFixture<ShowTaskModal>;
+describe('TaskCardEditFormFields', () => {
+  let component: TaskCardEditFormFields;
+  let fixture: ComponentFixture<TaskCardEditFormFields>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ShowTaskModal]
+      imports: [TaskCardEditFormFields]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ShowTaskModal);
+    fixture = TestBed.createComponent(TaskCardEditFormFields);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

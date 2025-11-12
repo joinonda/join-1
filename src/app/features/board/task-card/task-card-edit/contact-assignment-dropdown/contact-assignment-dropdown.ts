@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Contact } from '../../../../../../core/interfaces/db-contact-interface';
+import { Contact } from '../../../../../core/interfaces/db-contact-interface';
 
 @Component({
   selector: 'app-contact-assignment-dropdown',

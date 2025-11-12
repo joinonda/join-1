@@ -5,22 +5,18 @@
 
       <div class="modal-header">
         <button class="close-btn" (click)="onClose()">
-          <img 
-            #editModalCloseIcon 
-            src="assets/board/close-default-board.png" 
-            alt="Close" 
-            (mouseenter)="onCloseHover(editModalCloseIcon)" 
-            (mouseleave)="onCloseLeave(editModalCloseIcon)" />
+          <img #editModalCloseIcon src="assets/board/close-default-board.png" alt="Close"
+            (mouseenter)="onCloseHover(editModalCloseIcon)" (mouseleave)="onCloseLeave(editModalCloseIcon)" />
         </button>
       </div>
 
       <div class="modal-content">
 
         <div class="edit-form-left">
-          <app-edit-task-form-fields [(title)]="title" [(description)]="description" [(dueDate)]="dueDate"
+          <app-task-card-edit-form-fields [(title)]="title" [(description)]="description" [(dueDate)]="dueDate"
             [(hiddenDateValue)]="hiddenDateValue" [minDate]="minDate" [(titleError)]="titleError"
             [(dueDateError)]="dueDateError" [(dueDateErrorMessage)]="dueDateErrorMessage">
-          </app-edit-task-form-fields>
+          </app-task-card-edit-form-fields>
         </div>
 
         <div class="edit-form-right">
