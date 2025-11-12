@@ -23,29 +23,24 @@ import { AuthService } from './auth-service';
 })
 export class BoardTasksService {
   private firestore = inject(Firestore);
-  private authService = inject(AuthService); 
+  private authService = inject(AuthService);
   private tasksCollection = collection(this.firestore, 'tasks');
   private settingsCollection = collection(this.firestore, 'boardSettings');
-  
   private viewModeSubject = new BehaviorSubject<'public' | 'private'>('public');
   public viewMode$ = this.viewModeSubject.asObservable();
 
   constructor() {
-    this.loadUserSettings(); 
+    this.loadUserSettings();
   }
 
-
-  
   /**
-   * Lädt gespeicherte View-Mode Einstellung
-   */
+  * Loads the saved view mode setting for the current user from Firestore and updates the view mode subject. (currently deaktivated)
+  */
   private async loadUserSettings() {
     const user = this.authService.getCurrentUser();
     if (!user?.id) return;
-
     const settingsDoc = doc(this.firestore, `boardSettings/${user.id}`);
     const snapshot = await getDoc(settingsDoc);
-
     if (snapshot.exists()) {
       const data = snapshot.data() as BoardSettings;
       this.viewModeSubject.next(data.viewMode);
@@ -53,58 +48,81 @@ export class BoardTasksService {
   }
 
   /**
-   * Wechselt zwischen Public/Private
-   */
+ * Switches between public and private view modes for the current user and updates the setting in Firestore. (currently deaktivated)
+ */
   async toggleViewMode(mode: 'public' | 'private'): Promise<void> {
     const user = this.authService.getCurrentUser();
     if (!user?.id) return;
-
     const settingsDoc = doc(this.firestore, `boardSettings/${user.id}`);
     await setDoc(settingsDoc, {
       userId: user.id,
       viewMode: mode,
       lastChanged: Timestamp.now()
     });
-
     this.viewModeSubject.next(mode);
   }
 
   /**
-   *  Tasks basierend auf View Mode abrufen
-   */
-  getAllTasks(): Observable<Task[]> {
-  return combineLatest([
-    this.viewMode$,
-    this.authService.currentUser$
-  ]).pipe(
-    switchMap(([viewMode, user]) => {
-      if (viewMode === 'private' && user?.id) {
-        // ✅ Private Mode: Nur eigene private Tasks
-        const privateQuery = query(
-          this.tasksCollection,
-          where('isPrivate', '==', true),
-          where('ownerId', '==', user.id)
-        );
-        return collectionData(privateQuery, { idField: 'id' }) as Observable<Task[]>;
-      } else {
-        // ✅ Public Mode: Alle Tasks laden und client-seitig filtern
-        return (collectionData(this.tasksCollection, { idField: 'id' }) as Observable<Task[]>).pipe(
-          map(tasks => tasks.filter(task => {
-            // Zeige Tasks die:
-            // - kein isPrivate Feld haben (alte Tasks)
-            // - isPrivate === false haben
-            // - isPrivate === undefined haben
-            return task.isPrivate !== true;
-          }))
-        );
-      }
-    })
-  );
-}
+ * Retrieves all private tasks for a given user from Firestore.   (currently deaktivated)
+ *
+ * @param userId - The ID of the user whose private tasks should be fetched.
+ * @returns An observable of the user's private tasks.
+ */
+  private getPrivateTasks(userId: string): Observable<Task[]> {
+    const privateQuery = query(
+      this.tasksCollection,
+      where('isPrivate', '==', true),
+      where('ownerId', '==', userId)
+    );
+    return collectionData(privateQuery, { idField: 'id' }) as Observable<Task[]>;
+  }
 
   /**
-   * Tasks nach Status gruppiert abrufen
+ * Retrieves all public tasks from Firestore (tasks that are not marked as private).
+ *
+ * @returns An observable of all public tasks.
+ */
+  private getPublicTasks(): Observable<Task[]> {
+    return (collectionData(this.tasksCollection, { idField: 'id' }) as Observable<Task[]>)
+      .pipe(
+        map(tasks => tasks.filter(task => task.isPrivate !== true))
+      );
+  }
+
+  /**
+   * Resolves which tasks to fetch based on the current view mode and user.
+   *
+   * @param viewMode - The current board view mode ('public' or 'private').
+   * @param user - The current user object.
+   * @returns An observable of the appropriate tasks.
    */
+  private resolveTasks(viewMode: 'public' | 'private', user: any): Observable<Task[]> {
+    if (viewMode === 'private' && user?.id) {
+      return this.getPrivateTasks(user.id);
+    } else {
+      return this.getPublicTasks();
+    }
+  }
+
+  /**
+ * Returns all tasks for the current view mode and user as an observable.
+ *
+ * @returns An observable of all relevant tasks.
+ */
+  getAllTasks(): Observable<Task[]> {
+    return combineLatest([
+      this.viewMode$,
+      this.authService.currentUser$
+    ]).pipe(
+      switchMap(([viewMode, user]) => this.resolveTasks(viewMode, user))
+    );
+  }
+
+  /**
+ * Returns all tasks grouped by their status as an observable.
+ *
+ * @returns An observable with tasks grouped into 'todo', 'inprogress', 'awaitfeedback', and 'done'.
+ */
   getTasksByStatus(): Observable<{
     todo: Task[];
     inprogress: Task[];
@@ -117,12 +135,14 @@ export class BoardTasksService {
         inprogress: tasks.filter((t) => t.status === 'inprogress'),
         awaitfeedback: tasks.filter((t) => t.status === 'awaitfeedback'),
         done: tasks.filter((t) => t.status === 'done'),
-      }))
-    );
+      })));
   }
 
   /**
-   * Neuen Task erstellen
+   * Creates a new task in Firestore for the current user and view mode.
+   *
+   * @param task - The task data (without id and createdAt).
+   * @returns A promise that resolves to the new task's ID.
    */
   async createTask(task: Omit<Task, 'id' | 'createdAt'>): Promise<string> {
     const user = this.authService.getCurrentUser();
@@ -138,15 +158,21 @@ export class BoardTasksService {
   }
 
   /**
-   * Aktuellen View Mode abrufen
-   */
+ * Returns the current view mode ('public' or 'private').
+ *
+ * @returns The current view mode.
+ */
   getCurrentViewMode(): 'public' | 'private' {
     return this.viewModeSubject.value;
   }
 
   /**
-   * Task aktualisieren
-   */
+ * Updates an existing task in Firestore with the provided updates.
+ *
+ * @param taskId - The ID of the task to update.
+ * @param updates - The fields to update on the task.
+ * @returns A promise that resolves when the update is complete.
+ */
   async updateTask(taskId: string, updates: Partial<Task>): Promise<void> {
     const taskDoc = doc(this.firestore, `tasks/${taskId}`);
     const updateData: any = { ...updates };
@@ -161,6 +187,13 @@ export class BoardTasksService {
     }
   }
 
+  /**
+ * Updates the status of a task in Firestore and sets the updatedAt timestamp.
+ *
+ * @param taskId - The ID of the task to update.
+ * @param newStatus - The new status for the task.
+ * @returns A promise that resolves when the status is updated.
+ */
   async updateTaskStatus(
     taskId: string,
     newStatus: 'todo' | 'inprogress' | 'awaitfeedback' | 'done'
@@ -173,16 +206,23 @@ export class BoardTasksService {
   }
 
   /**
-   * Task löschen
-   */
+ * Deletes a task from Firestore.
+ *
+ * @param taskId - The ID of the task to delete.
+ * @returns A promise that resolves when the task is deleted.
+ */
   async deleteTask(taskId: string): Promise<void> {
     const taskDoc = doc(this.firestore, 'tasks', taskId);
     await deleteDoc(taskDoc);
   }
 
   /**
-   * Task in neue Spalte verschieben (Drag & Drop)
-   */
+ * Moves a task to a new status (column) in Firestore (used for drag & drop).
+ *
+ * @param taskId - The ID of the task to move.
+ * @param newStatus - The new status for the task.
+ * @returns A promise that resolves when the task is moved.
+ */
   async moveTask(
     taskId: string,
     newStatus: 'todo' | 'inprogress' | 'awaitfeedback' | 'done'
