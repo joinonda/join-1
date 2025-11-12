@@ -20,7 +20,7 @@ export class Board implements OnInit, OnDestroy {
   private tasksSubscription?: Subscription;
   private viewModeSubscription?: Subscription;
 
-  // ✅ NEU - View Mode State
+
   currentViewMode: 'public' | 'private' = 'public';
 
   allTasks = {
@@ -63,7 +63,7 @@ export class Board implements OnInit, OnDestroy {
   }
 
   /**
-   * ✅ Subscribt auf View Mode Änderungen
+   *  Subscribt auf View Mode Änderungen
    */
   subscribeToViewMode() {
     this.viewModeSubscription = this.taskService.viewMode$.subscribe(mode => {
@@ -72,7 +72,7 @@ export class Board implements OnInit, OnDestroy {
   }
 
   /**
-   * ✅ Toggle zwischen Public/Private
+   *  Toggle zwischen Public/Private
    */
   async toggleViewMode() {
     const newMode = this.currentViewMode === 'public' ? 'private' : 'public';
