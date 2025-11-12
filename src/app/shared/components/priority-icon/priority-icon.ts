@@ -13,10 +13,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './priority-icon.scss',
 })
 export class PriorityIcon {
-  /** Priority Level */
   @Input() priority: 'urgent' | 'medium' | 'low' = 'medium';
 
-  /** Optionales Label neben dem Icon anzeigen */
   @Input() showLabel: boolean = false;
 
   get priorityConfig() {
