@@ -1,3 +1,7 @@
+@use 'header';
+@use 'details';
+@use 'avatar';
+@use 'responsive';
 .contact-details-container {
   flex: 1;
   display: flex;
@@ -6,7 +10,4 @@
   overflow: hidden;
 }
 
-@import 'header';
-@import 'details';
-@import 'avatar';
-@import 'responsive';
+

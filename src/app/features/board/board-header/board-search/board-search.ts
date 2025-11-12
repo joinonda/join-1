@@ -13,6 +13,9 @@ export class BoardSearch {
   @Output() search = new EventEmitter<string>();
   searchValue = '';
 
+  /**
+ * Emits the current search value whenever the user types in the search input.
+ */
   onSearchInput() {
     this.search.emit(this.searchValue);
   }

@@ -10,6 +10,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class BoardAddButton {
   @Output() clicked = new EventEmitter<void>();
 
+  /**
+ * Emits an event when the add button is clicked.
+ */
   onClick() {
     this.clicked.emit();
   }

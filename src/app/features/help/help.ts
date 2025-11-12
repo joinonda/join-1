@@ -11,6 +11,9 @@ import { Location } from '@angular/common';
 export class Help {
   private location = inject(Location);
 
+  /**
+   * handle to move back to the previous page
+   */
   goBack() {
     this.location.back();
   }
