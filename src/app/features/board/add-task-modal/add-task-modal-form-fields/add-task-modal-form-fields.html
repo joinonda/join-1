@@ -1,0 +1,223 @@
+<div class="form-columns-wrapper">
+    <div class="form-left">
+        <div class="form-group">
+            <label>Title<span class="required">*</span></label>
+            <div class="input-wrapper">
+                <input type="text" [(ngModel)]="title" name="title" placeholder="Enter a title"
+                    [class.error]="titleError" (input)="onTitleInput()" maxlength="50" required />
+                <span class="field-error" [class.visible]="titleError">This field is required</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea [(ngModel)]="description" name="description" placeholder="Enter a Description" rows="4"
+                maxlength="100" (ngModelChange)="onDescriptionChange()"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Due date<span class="required">*</span></label>
+            <div class="input-wrapper">
+                <div class="date-input-container">
+                    <input type="text" [(ngModel)]="dueDate" name="dueDate" placeholder="dd/mm/yyyy"
+                        [class.error]="dueDateError" (input)="formatDateInput($event)" (change)="onDateChange()"
+                        maxlength="10" pattern="[0-9\/]*" inputmode="numeric" required />
+                    <button type="button" class="calendar-icon-btn" (click)="openDatePicker()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3 4.9 3 6V20C3 21.1 3.89 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4ZM19 20H5V10H19V20ZM19 8H5V6H19V8Z"
+                                fill="#2A3647" />
+                        </svg>
+                    </button>
+                    <input type="date" class="hidden-date-picker" [(ngModel)]="hiddenDateValue" name="hiddenDate"
+                        (change)="onDatePickerChange($event)" [min]="minDate" #datePicker />
+                </div>
+                <span class="field-error" [class.visible]="dueDateError">{{ dueDateErrorMessage }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-right">
+        <div class="form-group">
+            <label>Priority</label>
+            <div class="priority-buttons">
+                <button type="button" class="priority-btn" [class.active]="priority === 'urgent'"
+                    (click)="setPriority('urgent')">
+                    Urgent
+                    <img src="assets/board/urgent.png" alt="Urgent" class="priority-img" />
+                </button>
+                <button type="button" class="priority-btn medium" [class.active]="priority === 'medium'"
+                    (click)="setPriority('medium')">
+                    Medium
+                    <img src="assets/board/medium.png" alt="Medium" class="priority-img" />
+                </button>
+                <button type="button" class="priority-btn low" [class.active]="priority === 'low'"
+                    (click)="setPriority('low')">
+                    Low
+                    <img src="assets/board/low.png" alt="Low" class="priority-img" />
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group" [class.has-selected-contacts]="selectedContactIds.length > 0">
+            <label>Assigned to</label>
+            <div class="dropdown-wrapper">
+                <div class="dropdown-toggle-input">
+                    <input type="text" [(ngModel)]="contactSearchTerm" name="contactSearch"
+                        (focus)="onContactInputFocus()" (blur)="onContactInputBlur()" (input)="onContactSearch()"
+                        autocomplete="off" />
+                    <img #contactArrow
+                        [src]="showContactDropdown ? 'assets/board/arrow-drop-up-transparent.png' : 'assets/board/arrow-drop-down-transparent.png'"
+                        alt="dropdown arrow" class="dropdown-arrow" (click)="toggleContactDropdown()"
+                        (mouseenter)="onArrowHover(contactArrow, showContactDropdown)"
+                        (mouseleave)="onArrowLeave(contactArrow, showContactDropdown)" />
+                </div>
+
+                @if (showContactDropdown) {
+                <div class="dropdown-menu contacts-dropdown">
+                    @for (contact of filteredContacts; track contact.id) {
+                    <div class="contact-item" [class.selected]="isContactSelected(contact.id!)"
+                        (click)="toggleContact(contact.id!, $event)">
+                        <div class="contact-info">
+                            <div class="avatar" [style.background-color]="getAvatarColor(contact)">
+                                {{ getInitials(contact) }}
+                            </div>
+                            <span>{{ contact.firstname }}</span>
+                        </div>
+                        <img [src]="isContactSelected(contact.id!) ? 'assets/check-box/checkbox-white.png' : 'assets/board/check-button.png'"
+                            class="contact-checkbox" alt="checkbox">
+                    </div>
+                    }
+                    @if (filteredContacts.length === 0) {
+                    <div class="no-results">
+                        No contacts found
+                    </div>
+                    }
+                </div>
+                }
+
+                <div class="selected-contacts-container">
+                    @if (selectedContactIds.length > 0) {
+                    <div class="selected-contacts">
+                        @for (contact of getSelectedContacts().slice(0, 9); track contact.id) {
+                        <div class="avatar small" [style.background-color]="getAvatarColor(contact)"
+                            [title]="contact.firstname">
+                            {{ getInitials(contact) }}
+                        </div>
+                        }
+                        @if (selectedContactIds.length > 9) {
+                        <div class="avatar small more-contacts">
+                            +{{ selectedContactIds.length - 9 }}
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Category<span class="required">*</span></label>
+            <div class="input-wrapper">
+                <div class="dropdown-wrapper">
+                    <div class="dropdown-toggle" (click)="toggleCategoryDropdown()" [class.error]="categoryError">
+                        <span>{{ category || 'Select task category' }}</span>
+                        <img #categoryArrow
+                            [src]="showCategoryDropdown ? 'assets/board/arrow-drop-up-transparent.png' : 'assets/board/arrow-drop-down-transparent.png'"
+                            alt="dropdown arrow" class="dropdown-arrow"
+                            (mouseenter)="onArrowHover(categoryArrow, showCategoryDropdown)"
+                            (mouseleave)="onArrowLeave(categoryArrow, showCategoryDropdown)" />
+                    </div>
+
+                    @if (showCategoryDropdown) {
+                    <div class="dropdown-menu">
+                        @for (cat of categories; track cat) {
+                        <div class="dropdown-item" (click)="selectCategory(cat)">
+                            {{ cat }}
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+                <span class="field-error" [class.visible]="categoryError">This field is required</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Subtasks</label>
+            <div class="subtask-input-wrapper">
+                <input type="text" [(ngModel)]="newSubtaskTitle" name="newSubtask" placeholder="Add new subtask"
+                    (keyup.enter)="addSubtask()" (focus)="subtaskInputFocused = true" (blur)="onSubtaskInputBlur()"
+                    maxlength="20" />
+                @if (subtaskInputFocused || newSubtaskTitle) {
+                <div class="subtask-actions">
+                    <button type="button" class="icon-btn" (click)="clearSubtaskInput()">
+                        <img #subtaskCloseIcon src="assets/board/close-default-board.png" alt="Clear subtask" width="24"
+                            height="24" (mouseenter)="onSubtaskCloseHover(subtaskCloseIcon)"
+                            (mouseleave)="onSubtaskCloseLeave(subtaskCloseIcon)" />
+                    </button>
+                    <div class="divider"></div>
+                    <button type="button" class="icon-btn" (click)="addSubtask()">
+                        <img #subtaskCheckIcon src="assets/board/check-dark-default.png" alt="Add subtask" width="24"
+                            height="24" (mouseenter)="onSubtaskCheckHover(subtaskCheckIcon)"
+                            (mouseleave)="onSubtaskCheckLeave(subtaskCheckIcon)" />
+                    </button>
+                </div>
+                }
+            </div>
+
+            @if (subtasks.length > 0) {
+            <div class="subtasks-list" #subtasksList>
+                @for (subtask of subtasks; track subtask.id) {
+                <div class="subtask-item" [class.editing]="editingSubtaskId === subtask.id"
+                    (dblclick)="startEditSubtask(subtask.id)">
+                    @if (editingSubtaskId === subtask.id) {
+                    <div class="subtask-edit-wrapper">
+                        <input type="text" #editInput [value]="subtask.title"
+                            (keyup.enter)="saveSubtask(subtask, editInput.value)" class="edit-input" maxlength="20" />
+                        <div class="subtask-edit-actions">
+                            <button type="button" class="icon-btn small" (click)="deleteSubtask(subtask.id)">
+                                <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+                                    <path
+                                        d="M3 18C2.45 18 1.979 17.804 1.587 17.412C1.195 17.02 0.999333 16.5493 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.804 17.021 14.412 17.413C14.02 17.805 13.5493 18.0007 13 18H3ZM13 3H3V16H13V3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z"
+                                        fill="#2A3647" />
+                                </svg>
+                            </button>
+                            <div class="divider-vertical"></div>
+                            <button type="button" class="icon-btn small"
+                                (click)="saveSubtask(subtask, editInput.value)">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="#2A3647" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    } @else {
+                    <span>• {{ subtask.title }}</span>
+                    }
+                    @if (editingSubtaskId !== subtask.id) {
+                    <div class="subtask-item-actions">
+                        <button type="button" class="icon-btn small" (click)="startEditSubtask(subtask.id)">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                    fill="#2A3647" />
+                            </svg>
+                        </button>
+                        <div class="divider-vertical"></div>
+                        <button type="button" class="icon-btn small" (click)="deleteSubtask(subtask.id)">
+                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+                                <path
+                                    d="M3 18C2.45 18 1.979 17.804 1.587 17.412C1.195 17.02 0.999333 16.5493 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.804 17.021 14.412 17.413C14.02 17.805 13.5493 18.0007 13 18H3ZM13 3H3V16H13V3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z"
+                                    fill="#2A3647" />
+                            </svg>
+                        </button>
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>

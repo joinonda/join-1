@@ -1,52 +1,53 @@
 import {
   Component,
-  EventEmitter,
   Input,
   Output,
+  EventEmitter,
   OnInit,
   inject,
-  HostListener,
   ViewChild,
   ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Task, Subtask } from '../../../core/interfaces/board-tasks-interface';
-import { Contact } from '../../../core/interfaces/db-contact-interface';
-import { ContactService } from '../../../core/services/db-contact-service';
-import { Timestamp } from '@angular/fire/firestore';
+import { Contact } from '../../../../core/interfaces/db-contact-interface';
+import { ContactService } from '../../../../core/services/db-contact-service';
+import { Subtask } from '../../../../core/interfaces/board-tasks-interface';
 
 @Component({
-  selector: 'app-task-modal',
+  selector: 'app-add-task-modal-form-fields',
   imports: [CommonModule, FormsModule],
-  templateUrl: './task-modal.html',
-  styleUrls: ['./task-modal.scss', './task-modal2.scss'],
+  templateUrl: './add-task-modal-form-fields.html',
+  styleUrl: './add-task-modal-form-fields.scss',
   standalone: true,
 })
-export class TaskModal implements OnInit {
-  @Input() showModal = false;
-  @Input() defaultStatus: 'todo' | 'inprogress' | 'awaitfeedback' | 'done' = 'todo';
-  @Output() closeModal = new EventEmitter<void>();
-  @Output() taskCreated = new EventEmitter<Omit<Task, 'id' | 'createdAt'>>();
+export class AddTaskModalFormFields implements OnInit {
+  @Input() title = '';
+  @Input() description = '';
+  @Input() dueDate = '';
+  @Input() priority: 'urgent' | 'medium' | 'low' = 'medium';
+  @Input() category = '';
+  @Input() selectedContactIds: string[] = [];
+  @Input() subtasks: Subtask[] = [];
+
+  @Output() titleChange = new EventEmitter<string>();
+  @Output() descriptionChange = new EventEmitter<string>();
+  @Output() dueDateChange = new EventEmitter<string>();
+  @Output() priorityChange = new EventEmitter<'urgent' | 'medium' | 'low'>();
+  @Output() categoryChange = new EventEmitter<string>();
+  @Output() selectedContactIdsChange = new EventEmitter<string[]>();
+  @Output() subtasksChange = new EventEmitter<Subtask[]>();
 
   private contactService = inject(ContactService);
 
-  title = '';
-  description = '';
-  dueDate = '';
   hiddenDateValue = '';
   minDate = this.getTodayDateString();
-  priority: 'urgent' | 'medium' | 'low' = 'medium';
-  category = '';
-  selectedContactIds: string[] = [];
-  subtasks: Subtask[] = [];
   newSubtaskTitle = '';
   editingSubtaskId: string | null = null;
   subtaskInputFocused = false;
 
   showCategoryDropdown = false;
   showContactDropdown = false;
-  showSuccessToast = false;
 
   contacts: Contact[] = [];
   filteredContacts: Contact[] = [];
@@ -70,37 +71,9 @@ export class TaskModal implements OnInit {
     this.filteredContacts = [...this.contacts];
   }
 
-  @HostListener('document:keydown.escape')
-  onEscapeKey() {
-    if (this.showCategoryDropdown || this.showContactDropdown) {
-      this.showCategoryDropdown = false;
-      this.showContactDropdown = false;
-      return;
-    }
-
-    if (this.showModal && !this.showSuccessToast) {
-      this.onClose();
-    }
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const clickedInsideDropdown = target.closest('.dropdown-wrapper');
-
-    if (!clickedInsideDropdown && this.showContactDropdown) {
-      this.showContactDropdown = false;
-      this.contactSearchTerm = 'Select contacts to assign';
-      this.filteredContacts = [...this.contacts];
-    }
-
-    if (!clickedInsideDropdown && this.showCategoryDropdown) {
-      this.showCategoryDropdown = false;
-    }
-  }
-
   setPriority(priority: 'urgent' | 'medium' | 'low') {
     this.priority = priority;
+    this.priorityChange.emit(this.priority);
   }
 
   toggleCategoryDropdown() {
@@ -113,6 +86,7 @@ export class TaskModal implements OnInit {
   selectCategory(category: string) {
     this.category = category;
     this.categoryError = false;
+    this.categoryChange.emit(this.category);
     this.showCategoryDropdown = false;
   }
 
@@ -163,11 +137,11 @@ export class TaskModal implements OnInit {
     } else {
       this.selectedContactIds.push(contactId);
     }
+    this.selectedContactIdsChange.emit(this.selectedContactIds);
   }
 
   isContactSelected(contactId: string): boolean {
-    const isSelected = this.selectedContactIds.includes(contactId);
-    return isSelected;
+    return this.selectedContactIds.includes(contactId);
   }
 
   getSelectedContacts(): Contact[] {
@@ -183,6 +157,7 @@ export class TaskModal implements OnInit {
       });
       this.newSubtaskTitle = '';
       this.subtaskInputFocused = false;
+      this.subtasksChange.emit(this.subtasks);
 
       setTimeout(() => {
         if (this.subtasksList) {
@@ -214,10 +189,12 @@ export class TaskModal implements OnInit {
       subtask.title = newTitle.trim();
     }
     this.editingSubtaskId = null;
+    this.subtasksChange.emit(this.subtasks);
   }
 
   deleteSubtask(subtaskId: string) {
     this.subtasks = this.subtasks.filter((s) => s.id !== subtaskId);
+    this.subtasksChange.emit(this.subtasks);
   }
 
   formatDateInput(event: Event) {
@@ -232,6 +209,7 @@ export class TaskModal implements OnInit {
     }
 
     this.dueDate = value;
+    this.dueDateChange.emit(this.dueDate);
   }
 
   openDatePicker() {
@@ -245,6 +223,7 @@ export class TaskModal implements OnInit {
     if (dateValue) {
       const [year, month, day] = dateValue.split('-');
       this.dueDate = `${day}/${month}/${year}`;
+      this.dueDateChange.emit(this.dueDate);
     }
   }
 
@@ -296,122 +275,6 @@ export class TaskModal implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-  validateForm(): boolean {
-    let isValid = true;
-
-    if (!this.title.trim()) {
-      this.titleError = true;
-      isValid = false;
-    } else {
-      this.titleError = false;
-    }
-
-    if (!this.dueDate) {
-      this.dueDateError = true;
-      this.dueDateErrorMessage = 'This field is required';
-      isValid = false;
-    } else {
-      const [day, month, year] = this.dueDate.split('/');
-      if (day && month && year) {
-        const selectedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        if (selectedDate < today) {
-          this.dueDateError = true;
-          this.dueDateErrorMessage = 'Date cannot be in the past';
-          isValid = false;
-        } else {
-          this.dueDateError = false;
-        }
-      } else {
-        this.dueDateError = true;
-        this.dueDateErrorMessage = 'Invalid date format';
-        isValid = false;
-      }
-    }
-
-    if (!this.category) {
-      this.categoryError = true;
-      isValid = false;
-    } else {
-      this.categoryError = false;
-    }
-
-    return isValid;
-  }
-
-  onSubmit() {
-    if (!this.validateForm()) {
-      return;
-    }
-
-    const [day, month, year] = this.dueDate.split('/');
-    const dateObject = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-    const dueDateTimestamp = Timestamp.fromDate(dateObject);
-
-    const newTask: Omit<Task, 'id' | 'createdAt'> = {
-      title: this.title.trim(),
-      description: this.description.trim(),
-      dueDate: dueDateTimestamp,
-      priority: this.priority,
-      category: this.category,
-      status: this.defaultStatus,
-      assignedTo: [...this.selectedContactIds], 
-      subtasks: this.subtasks,
-    };
-
-    this.taskCreated.emit(newTask);
-    this.showSuccessToast = true;
-
-    setTimeout(() => {
-      this.showSuccessToast = false;
-      this.resetForm();
-      this.closeModal.emit();
-    }, 1500);
-  }
-
-  resetForm() {
-    this.title = '';
-    this.description = '';
-    this.dueDate = '';
-    this.priority = 'medium';
-    this.category = '';
-    this.selectedContactIds = [];
-    this.subtasks = [];
-    this.newSubtaskTitle = '';
-    this.contactSearchTerm = 'Select contacts to assign';
-    this.titleError = false;
-    this.dueDateError = false;
-    this.dueDateErrorMessage = 'This field is required';
-    this.categoryError = false;
-    this.showCategoryDropdown = false;
-    this.showContactDropdown = false;
-  }
-
-  onClose() {
-    this.resetForm();
-    this.closeModal.emit();
-  }
-
-  onOverlayClick() {
-    if (!this.showSuccessToast) {
-      this.onClose();
-    }
-  }
-
-  onModalClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const clickedInsideDropdown = target.closest('.dropdown-wrapper');
-
-    if (!clickedInsideDropdown) {
-      this.showCategoryDropdown = false;
-      this.showContactDropdown = false;
-    }
-
-    event.stopPropagation();
-  }
-
   onArrowHover(imgElement: HTMLImageElement, isDropdownOpen: boolean) {
     if (isDropdownOpen) {
       imgElement.src = 'assets/arrow-up-variant2.png';
@@ -442,5 +305,23 @@ export class TaskModal implements OnInit {
 
   onSubtaskCloseLeave(imgElement: HTMLImageElement) {
     imgElement.src = 'assets/board/close-default-board.png';
+  }
+
+  onTitleInput() {
+    this.titleError = false;
+    this.titleChange.emit(this.title);
+  }
+
+  onDescriptionChange() {
+    this.descriptionChange.emit(this.description);
+  }
+
+  onDateChange() {
+    this.dueDateError = false;
+  }
+
+  closeDropdowns() {
+    this.showCategoryDropdown = false;
+    this.showContactDropdown = false;
   }
 }

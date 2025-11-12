@@ -14,9 +14,9 @@
         }
     </div>
 
-    <app-task-modal [showModal]="showAddTaskModal" [defaultStatus]="defaultStatus" (closeModal)="closeAddTaskModal()"
-        (taskCreated)="handleTaskCreated($event)">
-    </app-task-modal>
+    <app-add-task-modal [showModal]="showAddTaskModal" [defaultStatus]="defaultStatus"
+        (closeModal)="closeAddTaskModal()" (taskCreated)="handleTaskCreated($event)">
+    </app-add-task-modal>
 
     <app-task-card-modal [showModal]="showViewTaskModal" [task]="selectedTask" (closeModal)="closeViewTaskModal()"
         (editTask)="handleEditTask($event)" (deleteTask)="handleDeleteTask($event)">

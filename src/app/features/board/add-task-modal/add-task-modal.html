@@ -1,0 +1,47 @@
+@if (showModal) {
+<div class="modal-overlay" (click)="onOverlayClick()">
+    <div class="modal-container" (click)="onModalClick($event)">
+        <button class="close-btn" (click)="onClose()">
+            <img #modalCloseIcon src="assets/board/close-default-board.png" alt="Close" width="24" height="24"
+                (mouseenter)="onSubtaskCloseHover(modalCloseIcon)" (mouseleave)="onSubtaskCloseLeave(modalCloseIcon)" />
+        </button>
+        <h1 class="modal-title">Add Task</h1>
+
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-content">
+                <app-add-task-modal-form-fields [(title)]="title" [(description)]="description" [(dueDate)]="dueDate"
+                    [(priority)]="priority" [(category)]="category" [(selectedContactIds)]="selectedContactIds"
+                    [(subtasks)]="subtasks">
+                </app-add-task-modal-form-fields>
+            </div>
+
+            <div class="modal-footer">
+                <p class="required-hint"><span class="required">*</span>This field is required</p>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" (click)="onClose()">
+                        Cancel
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 7L7 17M7 7L17 17" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg>
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        Create Task
+                        <img src="assets/check.png" alt="Check" />
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+@if (showSuccessToast) {
+<div class="success-toast">
+    <span>Task added to board</span>
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="white" />
+        <path d="M8 16L14 22L24 10" stroke="#2A3647" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+</div>
+}

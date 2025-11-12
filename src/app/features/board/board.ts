@@ -4,13 +4,13 @@ import { Subscription } from 'rxjs';
 import { BoardTasksService } from '../../core/services/board-tasks-service';
 import { Task } from '../../core/interfaces/board-tasks-interface';
 import { BoardColumns } from './board-columns/board-columns';
-import { TaskModal } from './task-modal/task-modal';
+import { AddTaskModal } from './add-task-modal/add-task-modal';
 import { TaskCardModal } from './task-card/task-card-modal/task-card-modal';
 import { BoardHeader } from './board-header/board-header';
 
 @Component({
   selector: 'app-board',
-  imports: [CommonModule, BoardColumns, TaskModal, TaskCardModal, BoardHeader],
+  imports: [CommonModule, BoardColumns, AddTaskModal, TaskCardModal, BoardHeader],
   templateUrl: './board.html',
   styleUrl: './board.scss',
   standalone: true,
