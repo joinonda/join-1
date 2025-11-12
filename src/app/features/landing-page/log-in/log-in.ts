@@ -68,12 +68,11 @@ export class LogIn {
 
   async onLogin() {
     this.passwordTouched = true;
-
     this.validateEmail();
     this.validatePassword();
-    if (this.emailError || this.passwordError) {
-      return;
-    }
+
+    if (this.hasValidationErrors()) return;
+
     this.isLoading = true;
     this.errorMessage = '';
     const result = await this.authService.login({
@@ -82,31 +81,58 @@ export class LogIn {
     });
     this.isLoading = false;
 
+    this.handleLoginResult(result);
+  }
+
+  private hasValidationErrors(): boolean {
+    return !!(this.emailError || this.passwordError);
+  }
+
+  private handleLoginResult(result: any): void {
     if (result.success) {
-      sessionStorage.setItem('justLoggedIn', 'true');
-      this.router.navigate(['/summary']);
+      this.handleSuccessfulLogin();
     } else {
-      this.errorMessage = result.message;
-      if (result.message.includes('email')) {
-        this.emailError = 'Invalid email or password';
-      } else if (result.message.includes('password')) {
-        this.passwordError = 'Invalid email or password';
-      }
+      this.handleLoginError(result.message);
+    }
+  }
+
+  private handleSuccessfulLogin(): void {
+    sessionStorage.setItem('justLoggedIn', 'true');
+    this.router.navigate(['/summary']);
+  }
+
+  private handleLoginError(message: string): void {
+    this.errorMessage = message;
+    if (message.includes('email')) {
+      this.emailError = 'Invalid email or password';
+    } else if (message.includes('password')) {
+      this.passwordError = 'Invalid email or password';
     }
   }
 
   onGuestLogin() {
     this.isLoading = true;
+    const guestUser = this.createGuestUser();
+    this.storeGuestUser(guestUser);
+    this.navigateToSummaryWithDelay();
+  }
 
-    const guestUser = {
+  private createGuestUser() {
+    return {
       id: 'guest',
       email: 'guest@join.com',
       name: 'Guest User',
       password: '',
       createdAt: new Date(),
     };
+  }
+
+  private storeGuestUser(guestUser: any): void {
     localStorage.setItem('currentUser', JSON.stringify(guestUser));
     this.authService['currentUserSubject'].next(guestUser);
+  }
+
+  private navigateToSummaryWithDelay(): void {
     setTimeout(() => {
       this.isLoading = false;
       sessionStorage.setItem('justLoggedIn', 'true');

@@ -160,39 +160,54 @@ export class SignUp {
   }
 
   async onSignUp() {
+    this.markAllFieldsAsTouched();
+    this.validateAllFields();
+
+    if (this.hasValidationErrors()) return;
+
+    this.isLoading = true;
+    const result = await this.authService.register(this.getRegistrationData());
+    this.isLoading = false;
+
+    this.handleRegistrationResult(result);
+  }
+
+  private markAllFieldsAsTouched(): void {
     this.nameTouched = true;
     this.emailTouched = true;
     this.passwordTouched = true;
     this.confirmPasswordTouched = true;
+  }
 
+  private validateAllFields(): void {
     this.validateName();
     this.validateEmail();
     this.validatePassword();
     this.validateConfirmPassword();
     this.validatePrivacyPolicy();
+  }
 
-    if (
+  private hasValidationErrors(): boolean {
+    return !!(
       this.nameError ||
       this.emailError ||
       this.passwordError ||
       this.confirmPasswordError ||
       this.privacyPolicyError
-    ) {
-      return;
-    }
+    );
+  }
 
-    this.isLoading = true;
-
-    const result = await this.authService.register({
+  private getRegistrationData() {
+    return {
       email: this.email,
       name: this.name,
       password: this.password,
       confirmPassword: this.confirmPassword,
       acceptPrivacyPolicy: this.acceptPrivacyPolicy,
-    });
+    };
+  }
 
-    this.isLoading = false;
-
+  private handleRegistrationResult(result: any): void {
     if (result.success) {
       this.showSuccessMessage = true;
       setTimeout(() => {
@@ -209,14 +224,20 @@ export class SignUp {
 
   onCheckboxHover(isHovering: boolean) {
     if (this.acceptPrivacyPolicy) {
-      this.checkboxImageSrc = isHovering
-        ? 'assets/check-box/checkbox-checked-hovered.png'
-        : 'assets/check-box/check-box-checked.png';
+      this.checkboxImageSrc = this.getCheckedHoverImage(isHovering);
     } else {
-      this.checkboxImageSrc = isHovering
-        ? 'assets/check-box/check-box-hovered.png'
-        : 'assets/check-box/check-box.png';
+      this.checkboxImageSrc = this.getUncheckedHoverImage(isHovering);
     }
+  }
+
+  private getCheckedHoverImage(isHovering: boolean): string {
+    return isHovering
+      ? 'assets/check-box/checkbox-checked-hovered.png'
+      : 'assets/check-box/check-box-checked.png';
+  }
+
+  private getUncheckedHoverImage(isHovering: boolean): string {
+    return isHovering ? 'assets/check-box/check-box-hovered.png' : 'assets/check-box/check-box.png';
   }
 
   onCheckboxChange() {
@@ -231,29 +252,22 @@ export class SignUp {
 
   onPasswordIconHover(isHovering: boolean): void {
     if (this.password.length === 0) return;
-
-    if (isHovering) {
-      this.passwordIconSrc = this.showPassword
-        ? 'assets/signup/eye-crossed-signup.png'
-        : 'assets/signup/eye.png';
-    } else {
-      this.passwordIconSrc = this.showPassword
-        ? 'assets/signup/eye.png'
-        : 'assets/signup/eye-crossed-signup.png';
-    }
+    this.passwordIconSrc = this.getPasswordIconForHover(isHovering, this.showPassword);
   }
 
   onConfirmPasswordIconHover(isHovering: boolean): void {
     if (this.confirmPassword.length === 0) return;
+    this.confirmPasswordIconSrc = this.getPasswordIconForHover(
+      isHovering,
+      this.showConfirmPassword
+    );
+  }
 
+  private getPasswordIconForHover(isHovering: boolean, isVisible: boolean): string {
     if (isHovering) {
-      this.confirmPasswordIconSrc = this.showConfirmPassword
-        ? 'assets/signup/eye-crossed-signup.png'
-        : 'assets/signup/eye.png';
+      return isVisible ? 'assets/signup/eye-crossed-signup.png' : 'assets/signup/eye.png';
     } else {
-      this.confirmPasswordIconSrc = this.showConfirmPassword
-        ? 'assets/signup/eye.png'
-        : 'assets/signup/eye-crossed-signup.png';
+      return isVisible ? 'assets/signup/eye.png' : 'assets/signup/eye-crossed-signup.png';
     }
   }
 
