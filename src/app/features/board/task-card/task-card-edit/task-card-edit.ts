@@ -10,30 +10,30 @@ import {
   HostListener,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Task, Subtask } from '../../../../../core/interfaces/board-tasks-interface';
-import { Contact } from '../../../../../core/interfaces/db-contact-interface';
-import { ContactService } from '../../../../../core/services/db-contact-service';
-import { BoardTasksService } from '../../../../../core/services/board-tasks-service';
+import { Task, Subtask } from '../../../../core/interfaces/board-tasks-interface';
+import { Contact } from '../../../../core/interfaces/db-contact-interface';
+import { ContactService } from '../../../../core/services/db-contact-service';
+import { BoardTasksService } from '../../../../core/services/board-tasks-service';
 import { Timestamp } from '@angular/fire/firestore';
-import { PrioritySelectorComponent } from '../../../../../shared/components/priority-selector/priority-selector';
-import { SubtaskManagerComponent } from '../../../../../shared/components/subtask-manager/subtask-manager';
-import { EditTaskFormFieldsComponent } from './edit-task-form-fields/edit-task-form-fields';
+import { PrioritySelectorComponent } from '../../../../shared/components/priority-selector/priority-selector';
+import { SubtaskManagerComponent } from '../../../../shared/components/subtask-manager/subtask-manager';
+import { TaskCardEditFormFields } from './task-card-edit-form-fields/task-card-edit-form-fields';
 import { ContactAssignmentDropdownComponent } from './contact-assignment-dropdown/contact-assignment-dropdown';
 
 @Component({
-  selector: 'app-edit-task-modal',
+  selector: 'app-task-card-edit',
   imports: [
     CommonModule,
     PrioritySelectorComponent,
     SubtaskManagerComponent,
-    EditTaskFormFieldsComponent,
+    TaskCardEditFormFields,
     ContactAssignmentDropdownComponent,
   ],
-  templateUrl: './edit-task-modal.html',
-  styleUrl: './edit-task-modal.scss',
+  templateUrl: './task-card-edit.html',
+  styleUrl: './task-card-edit.scss',
   standalone: true,
 })
-export class EditTaskModal implements OnInit, OnChanges {
+export class TaskCardEdit implements OnInit, OnChanges {
   @Input() showModal = false;
   @Input() task: Task | null = null;
   @Output() closeModal = new EventEmitter<void>();

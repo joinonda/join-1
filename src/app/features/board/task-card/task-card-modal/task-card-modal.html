@@ -83,7 +83,7 @@
   </div>
 </div>
 
-<app-edit-task-modal [showModal]="showEditModal" [task]="task" (closeModal)="closeEditModal()"
+<app-task-card-edit [showModal]="showEditModal" [task]="task" (closeModal)="closeEditModal()"
   (taskUpdated)="handleTaskUpdated($event)">
-</app-edit-task-modal>
+</app-task-card-edit>
 }

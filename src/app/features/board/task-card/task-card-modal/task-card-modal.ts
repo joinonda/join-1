@@ -13,17 +13,17 @@ import { Task } from '../../../../core/interfaces/board-tasks-interface';
 import { Contact } from '../../../../core/interfaces/db-contact-interface';
 import { ContactService } from '../../../../core/services/db-contact-service';
 import { BoardTasksService } from '../../../../core/services/board-tasks-service';
-import { EditTaskModal } from './edit-task-modal/edit-task-modal';
+import { TaskCardEdit } from '../task-card-edit/task-card-edit';
 import { PriorityIcon } from '../../../../shared/components/priority-icon/priority-icon';
 
 @Component({
-  selector: 'app-show-task-modal',
-  imports: [CommonModule, EditTaskModal, PriorityIcon],
-  templateUrl: './show-task-modal.html',
-  styleUrl: './show-task-modal.scss',
+  selector: 'app-task-card-modal',
+  imports: [CommonModule, TaskCardEdit, PriorityIcon],
+  templateUrl: './task-card-modal.html',
+  styleUrl: './task-card-modal.scss',
   standalone: true,
 })
-export class ShowTaskModal implements OnInit, OnChanges {
+export class TaskCardModal implements OnInit, OnChanges {
   @Input() showModal = false;
   @Input() task: Task | null = null;
   @Output() closeModal = new EventEmitter<void>();

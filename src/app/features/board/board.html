@@ -18,7 +18,7 @@
         (taskCreated)="handleTaskCreated($event)">
     </app-task-modal>
 
-    <app-show-task-modal [showModal]="showViewTaskModal" [task]="selectedTask" (closeModal)="closeViewTaskModal()"
+    <app-task-card-modal [showModal]="showViewTaskModal" [task]="selectedTask" (closeModal)="closeViewTaskModal()"
         (editTask)="handleEditTask($event)" (deleteTask)="handleDeleteTask($event)">
-    </app-show-task-modal>
+    </app-task-card-modal>
 </div>
