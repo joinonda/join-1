@@ -19,7 +19,6 @@ body {
   position: relative;
 }
 
-// Greeting Content für Mobile (statt normalem Content)
 .greeting-content {
   display: none;
 
@@ -415,7 +414,6 @@ body {
   }
 }
 
-// Animations
 @keyframes fadeIn {
   from {
     opacity: 0;

@@ -33,7 +33,6 @@ export class Summary implements OnInit, OnDestroy {
   greeting = '';
   username = 'Guest';
 
-  // Greeting Overlay für Mobile
   showGreetingOverlay = false;
   greetingTimeOfDay = '';
 
@@ -84,14 +83,12 @@ export class Summary implements OnInit, OnDestroy {
   }
 
   private checkAndShowWelcome(): void {
-    // Nur auf Mobile (<1250px) und nur wenn gerade eingeloggt
     if (window.innerWidth < 1250) {
       const justLoggedIn = sessionStorage.getItem('justLoggedIn');
       if (justLoggedIn === 'true') {
         sessionStorage.removeItem('justLoggedIn');
         this.showGreetingOverlay = true;
 
-        // Nach 2 Sekunden: Content einblenden
         setTimeout(() => {
           this.showGreetingOverlay = false;
         }, 2000);
@@ -106,17 +103,11 @@ export class Summary implements OnInit, OnDestroy {
 
   private calculateStatistics(tasks: Task[]): void {
     this.todoCount = tasks.filter((t) => t.status === 'todo').length;
-
     this.doneCount = tasks.filter((t) => t.status === 'done').length;
-
     this.urgentCount = tasks.filter((t) => t.priority === 'urgent').length;
-
     this.tasksInBoardCount = tasks.length;
-
     this.tasksInProgressCount = tasks.filter((t) => t.status === 'inprogress').length;
-
     this.awaitingFeedbackCount = tasks.filter((t) => t.status === 'awaitfeedback').length;
-
     this.upcomingDeadline = this.calculateUpcomingDeadline(tasks);
   }
 
