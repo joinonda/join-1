@@ -15,6 +15,10 @@ export class Navbar implements OnInit {
   
   isLoggedIn = false;
 
+  /**
+ * Lifecycle hook that is called after data-bound properties are initialized.
+ * Checks the login status and subscribes to user changes.
+ */
   ngOnInit() {
     this.checkLoginStatus();
     this.authService.currentUser$.subscribe(user => {
@@ -22,6 +26,9 @@ export class Navbar implements OnInit {
     });
   }
 
+  /**
+ * Checks if a user is currently logged in and updates the isLoggedIn property.
+ */
   private checkLoginStatus() {
     this.isLoggedIn = this.authService.isLoggedIn();
   }
