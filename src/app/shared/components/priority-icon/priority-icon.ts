@@ -13,10 +13,28 @@ import { CommonModule } from '@angular/common';
   styleUrl: './priority-icon.scss',
 })
 export class PriorityIcon {
+
+  /**
+ * The priority level to display. Can be 'urgent', 'medium', or 'low'.
+ * 
+ * @type {'urgent' | 'medium' | 'low'}
+ * @default 'medium'
+ */
   @Input() priority: 'urgent' | 'medium' | 'low' = 'medium';
 
+  /**
+ * Whether to show the label text next to the icon.
+ * 
+ * @type {boolean}
+ * @default false
+ */
   @Input() showLabel: boolean = false;
 
+  /**
+ * Returns the configuration object (icon path, label, color) for the current priority.
+ *
+ * @returns An object containing icon, label, and color for the selected priority.
+ */
   get priorityConfig() {
     const configs = {
       urgent: { icon: 'assets/board/urgent.png', label: 'Urgent', color: '#ff3d00' },
