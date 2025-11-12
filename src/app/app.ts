@@ -21,10 +21,8 @@ export class App implements OnInit {
   private router = inject(Router);
 
   async ngOnInit() {
-    // Check initial route IMMEDIATELY
     this.checkRoute(this.router.url);
 
-    // Load contacts in parallel without blocking
     this.contactService.getAllContacts().then((contacts) => {
       this.contacts = contacts;
     });
@@ -37,7 +35,6 @@ export class App implements OnInit {
   }
 
   private checkRoute(url: string) {
-    // Hide navigation on auth pages
     const authRoutes = ['/', '/login', '/signup'];
     this.showNavigation = !authRoutes.includes(url);
   }

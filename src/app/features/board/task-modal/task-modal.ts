@@ -121,7 +121,6 @@ export class TaskModal implements OnInit {
     if (this.showContactDropdown) {
       this.showCategoryDropdown = false;
     } else {
-      // Suchfeld leeren und alle Kontakte anzeigen, wenn Dropdown geschlossen wird
       this.contactSearchTerm = 'Select contacts to assign';
       this.filteredContacts = [...this.contacts];
     }
@@ -185,7 +184,6 @@ export class TaskModal implements OnInit {
       this.newSubtaskTitle = '';
       this.subtaskInputFocused = false;
 
-      // Scroll to top after adding
       setTimeout(() => {
         if (this.subtasksList) {
           this.subtasksList.nativeElement.scrollTop = 0;
@@ -313,7 +311,6 @@ export class TaskModal implements OnInit {
       this.dueDateErrorMessage = 'This field is required';
       isValid = false;
     } else {
-      // Prüfe, ob das Datum in der Vergangenheit liegt
       const [day, month, year] = this.dueDate.split('/');
       if (day && month && year) {
         const selectedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
@@ -360,7 +357,7 @@ export class TaskModal implements OnInit {
       priority: this.priority,
       category: this.category,
       status: this.defaultStatus,
-      assignedTo: [...this.selectedContactIds], // KORRIGIERT - Array kopieren
+      assignedTo: [...this.selectedContactIds], 
       subtasks: this.subtasks,
     };
 

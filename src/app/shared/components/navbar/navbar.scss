@@ -135,7 +135,6 @@
     gap: clamp(8px, 2vw, 16px);
   }
 
-  // Spacer für nicht eingeloggte Benutzer - schiebt Footer-Links nach rechts
   .nav-spacer {
     flex: 1;
     display: none;
@@ -172,12 +171,10 @@
     height: 24px;
   }
 
-  // Für eingeloggte Benutzer: Footer verstecken
   .navbar:has(.nav-links li:nth-child(4)) .navbar-footer {
     display: none;
   }
 
-  // Für nicht eingeloggte Benutzer: Footer verstecken, aber Footer-Links als Nav-Items anzeigen
   .navbar:has(.nav-footer-item) {
     .navbar-footer {
       display: none;
@@ -199,7 +196,6 @@
     }
   }
 
-  // Für Bildschirme über 1025px: Footer-Items in nav-links verstecken
   @media (min-width: 1026px) {
     .nav-footer-item {
       display: none;
@@ -207,7 +203,6 @@
   }
 }
 
-// Desktop: Footer-Items in nav-links verstecken
 .nav-footer-item {
   display: none;
 }

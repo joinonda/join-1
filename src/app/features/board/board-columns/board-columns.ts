@@ -52,9 +52,7 @@ export class BoardColumns implements OnInit {
   closeMenuOnClickOutside(event: Event) {
     const target = event.target as HTMLElement;
 
-    // Prüfe ob der Klick außerhalb des Move-Menüs und des Toggle-Buttons war
     if (!target.closest('.move-menu') && !target.closest('.mobile-move-btn')) {
-      // Schließe alle geöffneten Menüs
       Object.keys(this.showMoveMenu).forEach((key) => {
         this.showMoveMenu[key] = false;
       });
@@ -101,7 +99,6 @@ export class BoardColumns implements OnInit {
     const currentIndex = columns.findIndex((col) => col.id === currentColumnId);
     const options: { id: string; label: string; direction: string }[] = [];
 
-    // Vorherige Spalte (Pfeil nach oben)
     if (currentIndex > 0) {
       options.push({
         ...columns[currentIndex - 1],
@@ -109,7 +106,6 @@ export class BoardColumns implements OnInit {
       });
     }
 
-    // Nächste Spalte (Pfeil nach unten)
     if (currentIndex < columns.length - 1) {
       options.push({
         ...columns[currentIndex + 1],
@@ -122,13 +118,12 @@ export class BoardColumns implements OnInit {
 
   moveTaskToColumn(task: Task, targetColumn: string, event: Event) {
     event.stopPropagation();
-    this.moveTaskRequested.emit({ task, targetColumn }); // ✅ Nur task und targetColumn
+    this.moveTaskRequested.emit({ task, targetColumn }); 
     this.showMoveMenu[task.id!] = false;
   }
 
   async onDrop(event: CdkDragDrop<Task[]>) {
     if (this.isMobile) {
-      // ✅ isMobile Check
       return;
     }
 

@@ -156,7 +156,6 @@ form {
     padding-bottom: 0;
   }
 
-  // Nur für form-groups mit input-wrapper die spezifischen Layout-Properties
   &:has(.input-wrapper) {
     align-items: flex-start;
     padding: 0px 0px clamp(16px, 2vw, 20px) 0px;
@@ -312,8 +311,6 @@ form {
       position: absolute;
       opacity: 0;
       pointer-events: none;
-      // width: 0;
-      // height: 0;
     }
   }
 
@@ -328,7 +325,6 @@ form {
   }
 }
 
-// Priority Buttons
 .priority-buttons {
   display: flex;
   gap: clamp(12px, 1.5vw, 16px);
@@ -424,7 +420,7 @@ form {
     flex-shrink: 0;
   }
 }
-// Dropdown
+
 .dropdown-wrapper {
   position: relative;
   flex: none;
@@ -432,7 +428,6 @@ form {
   align-self: stretch;
   flex-grow: 0;
 
-  // Nur für dropdown-wrapper innerhalb von input-wrapper die feste Größe
   .input-wrapper & {
     width: 100%;
     height: clamp(40px, 4.5vw, 48px);
@@ -536,7 +531,6 @@ form {
 
 .dropdown-menu {
   position: absolute;
-  // top: calc(100% + -2px);
   left: 0;
   right: 0;
   background: #ffffff;
@@ -571,7 +565,6 @@ form {
   text-align: center;
 }
 
-// Modal Footer
 .modal-footer {
   display: flex;
   flex-direction: row;

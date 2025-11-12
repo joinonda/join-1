@@ -191,6 +191,24 @@
     padding: 0;
     width: 100%;
     align-self: stretch;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #c4c4c4;
+      border-radius: 10px;
+
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
   }
 
   .assigned-contact {

@@ -167,7 +167,6 @@ export class AddTask implements OnInit {
       this.newSubtaskTitle = '';
       this.subtaskInputFocused = false;
 
-      // Scroll to top after adding
       setTimeout(() => {
         if (this.subtasksList) {
           this.subtasksList.nativeElement.scrollTop = 0;

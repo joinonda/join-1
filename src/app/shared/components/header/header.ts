@@ -19,12 +19,11 @@ export class Header implements OnInit, OnDestroy {
   userInitials = 'G';
   userName = 'Guest';
   showDropdown = false;
-  isLoggedIn = false; // ✅ Neu: Login-Status tracken
+  isLoggedIn = false; 
 
   ngOnInit() {
-    // ✅ Observable subscriben um Login-Status zu tracken
     this.userSubscription = this.authService.currentUser$.subscribe(user => {
-      this.isLoggedIn = !!user; // ✅ true wenn user existiert, sonst false
+      this.isLoggedIn = !!user;
       if (user && user.name) {
         this.userName = user.name;
         this.userInitials = this.getInitials(user.name);
@@ -36,7 +35,6 @@ export class Header implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // ✅ Subscription cleanup
     this.userSubscription?.unsubscribe();
   }
 
