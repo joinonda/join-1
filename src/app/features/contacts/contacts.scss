@@ -81,7 +81,6 @@
 @media (max-width: 600px) {
   .contacts-container {
 
-    // Mobile: show only list by default
     app-contact-list {
       width: 100%;
       flex: 1;
@@ -94,7 +93,6 @@
 
   .contacts-container.contact-selected {
 
-    // Mobile: when contact selected, hide list and show details
     app-contact-list {
       display: none;
     }
