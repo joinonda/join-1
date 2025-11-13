@@ -15,6 +15,9 @@ import { ContactService } from '../../../../core/services/db-contact-service';
 import { BoardTasksService } from '../../../../core/services/board-tasks-service';
 import { TaskCardEdit } from '../task-card-edit/task-card-edit';
 import { PriorityIcon } from '../../../../shared/components/priority-icon/priority-icon';
+import { OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 
 /**
  * Task card modal component for displaying detailed task information.
@@ -36,6 +39,7 @@ export class TaskCardModal implements OnInit, OnChanges {
 
   private contactService = inject(ContactService);
   private taskService = inject(BoardTasksService);
+  private taskSubscription?: Subscription;
 
   contacts: Contact[] = [];
   assignedContacts: Contact[] = [];
@@ -57,11 +61,47 @@ export class TaskCardModal implements OnInit, OnChanges {
    * Loads assigned contacts when task changes.
    */
   async ngOnChanges() {
-    if (this.task) {
+    if (this.task && this.showModal) {
+      this.subscribeToTaskUpdates();
       await this.loadAssignedContacts();
+    } else if (!this.showModal) {
+      this.unsubscribeFromTaskUpdates();
+    }
+  }
+/**
+   * Subscribes to live updates for the current task from Firestore.
+   */
+  private subscribeToTaskUpdates() {
+    if (!this.task?.id) return;
+    this.unsubscribeFromTaskUpdates();
+    this.taskSubscription = this.taskService.getAllTasks().pipe(
+      map(tasks => tasks.find(t => t.id === this.task?.id)),
+      filter(task => !!task)
+    ).subscribe(async (updatedTask) => {
+      this.task = updatedTask as Task;
+      await this.loadAssignedContacts();
+    });
+  }
+
+  /**
+ * Unsubscribes from task update subscriptions to prevent memory leaks.
+ * Cleans up the subscription if it exists and resets the subscription reference.
+ */
+  private unsubscribeFromTaskUpdates() {
+    if (this.taskSubscription) {
+      this.taskSubscription.unsubscribe();
+      this.taskSubscription = undefined;
     }
   }
 
+  /**
+ * Lifecycle hook that runs when the component is destroyed.
+ * Ensures proper cleanup by unsubscribing from all task updates.
+ */
+  ngOnDestroy() {
+    this.unsubscribeFromTaskUpdates();
+  }
+  
   /**
    * Loads all contacts from the database.
    */

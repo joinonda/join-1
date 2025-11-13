@@ -23,20 +23,13 @@ export class App implements OnInit {
 
   contacts: Contact[] = [];
   tasks: Task[] = [];
-
-
   showNavigation = false;
-
   private hasReloaded = false;
-
   private contactService = inject(ContactService);
   private boardTasksService = inject(BoardTasksService);
   private router = inject(Router);
 
-  /**
-   * Lifecycle hook that runs on component initialization.
-   * Checks the current route, loads contacts, and subscribes to route changes.
-   */
+
   /**
  * Lifecycle hook that runs on component initialization.
  * Checks the current route, loads contacts, and subscribes to route changes.
@@ -66,9 +59,7 @@ private async checkFirebaseHealthAndReload() {
   if (sessionStorage.getItem('hasReloaded')) {
     this.hasReloaded = true;
   }
-
   const isConnected = await this.performHealthCheck();
-
   if (!isConnected && !this.hasReloaded) {
     this.triggerReload();
   }
