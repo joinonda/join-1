@@ -4,10 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Header } from './shared/components/header/header';
 import { Navbar } from './shared/components/navbar/navbar';
 import { ContactService } from './core/services/db-contact-service';
-import { Contact } from './core/interfaces/db-contact-interface';
+import { ContactHelper, Contact } from './core/interfaces/db-contact-interface';
 import { filter } from 'rxjs/operators';
-import { BoardTasksService } from './core/services/board-tasks-service';
-import { Task } from './core/interfaces/board-tasks-interface';
 
 /**
  * Root component of the application.
@@ -20,17 +18,13 @@ import { Task } from './core/interfaces/board-tasks-interface';
   styleUrl: './app.scss',
 })
 export class App implements OnInit {
-
+  /** Array of all contacts loaded from the database */
   contacts: Contact[] = [];
-  tasks: Task[] = [];
 
-
+  /** Controls visibility of header and navigation components */
   showNavigation = false;
 
-  private hasReloaded = false;
-
   private contactService = inject(ContactService);
-  private boardTasksService = inject(BoardTasksService);
   private router = inject(Router);
 
   /**
@@ -38,38 +32,17 @@ export class App implements OnInit {
    * Checks the current route, loads contacts, and subscribes to route changes.
    */
   async ngOnInit() {
+    this.checkRoute(this.router.url);
+
+    this.contactService.getAllContacts().then((contacts) => {
+      this.contacts = contacts;
+    });
+
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         this.checkRoute(event.url);
       });
-
-    this.checkRoute(this.router.url);
-    if (sessionStorage.getItem('hasReloaded')) {
-      this.hasReloaded = true;
-    }
-
-    const healthCheckPromise = this.boardTasksService.checkFirebaseConnection();
-    const timeoutPromise = new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 2000));
-    const isConnected = await Promise.race([healthCheckPromise, timeoutPromise]);
-
-    if (!isConnected && !this.hasReloaded) {
-      console.error('Firebase not reachable, reloading once...');
-      sessionStorage.setItem('hasReloaded', 'true');
-      setTimeout(() => {
-        console.warn('Page must be reloaded');
-        location.reload();
-      }, 1000);
-    } else {
-      console.log('Firebase is loaded successfully.');
-    }
-    this.contactService.getAllContacts().then((contacts) => {
-      this.contacts = contacts;
-    });
-
-    this.boardTasksService.getAllTasks().subscribe(tasks => {
-      this.tasks = tasks;
-    });
   }
 
   /**
