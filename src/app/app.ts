@@ -29,85 +29,97 @@ export class App implements OnInit {
   private boardTasksService = inject(BoardTasksService);
   private router = inject(Router);
 
+  /**
+   * Lifecycle hook that runs on component initialization.
+   * Checks the current route, loads contacts, and subscribes to route changes.
+   */
+  async ngOnInit() {
+    this.setupRouteHandling();
+    
+    // Nur Health-Check ausführen, wenn User eingeloggt ist
+    if (this.isUserLoggedIn()) {
+      await this.checkFirebaseHealthAndReload();
+      this.loadContacts();
+    }
+  }
 
   /**
- * Lifecycle hook that runs on component initialization.
- * Checks the current route, loads contacts, and subscribes to route changes.
- */
-async ngOnInit() {
-  this.setupRouteHandling();
-  await this.checkFirebaseHealthAndReload();
-  this.loadContacts();
-}
+   * Checks if a user is currently logged in by verifying the localStorage.
+   * 
+   * @returns True if a user (guest or registered) is logged in, false otherwise.
+   */
+  private isUserLoggedIn(): boolean {
+    const currentUser = localStorage.getItem('currentUser');
+    return !!currentUser;
+  }
 
-/**
- * Sets up router event handling and checks the initial route.
- */
-private setupRouteHandling() {
-  this.router.events
-    .pipe(filter((event) => event instanceof NavigationEnd))
-    .subscribe((event: any) => {
-      this.checkRoute(event.url);
+  /**
+   * Sets up router event handling and checks the initial route.
+   */
+  private setupRouteHandling() {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.checkRoute(event.url);
+      });
+    this.checkRoute(this.router.url);
+  }
+
+  /**
+   * Checks Firebase connection health and triggers a reload if necessary.
+   */
+  private async checkFirebaseHealthAndReload() {
+    if (sessionStorage.getItem('hasReloaded')) {
+      this.hasReloaded = true;
+    }
+    const isConnected = await this.performHealthCheck();
+    if (!isConnected && !this.hasReloaded) {
+      this.triggerReload();
+    }
+  }
+
+  /**
+   * Performs a Firebase health check with a 2-second timeout.
+   * 
+   * @returns True if Firebase is reachable, false otherwise.
+   */
+  private async performHealthCheck(): Promise<boolean> {
+    const healthCheckPromise = this.boardTasksService.checkFirebaseConnection();
+    const timeoutPromise = new Promise<boolean>((resolve) => 
+      setTimeout(() => resolve(false), 2000)
+    );
+    return await Promise.race([healthCheckPromise, timeoutPromise]);
+  }
+
+  /**
+   * Triggers a page reload after marking it in session storage.
+   */
+  private triggerReload() {
+    console.error('Firebase not reachable, reloading once...');
+    sessionStorage.setItem('hasReloaded', 'true');
+    setTimeout(() => {
+      console.warn('Page must be reloaded');
+      location.reload();
+    }, 1000);
+  }
+
+  /**
+   * Loads all contacts from the database.
+   */
+  private loadContacts() {
+    this.contactService.getAllContacts().then((contacts) => {
+      this.contacts = contacts;
     });
-  this.checkRoute(this.router.url);
-}
-
-/**
- * Checks Firebase connection health and triggers a reload if necessary.
- */
-private async checkFirebaseHealthAndReload() {
-  if (sessionStorage.getItem('hasReloaded')) {
-    this.hasReloaded = true;
   }
-  const isConnected = await this.performHealthCheck();
-  if (!isConnected && !this.hasReloaded) {
-    this.triggerReload();
+
+  /**
+   * Checks if the current route requires navigation components.
+   * Hides navigation on authentication routes (login, signup, root).
+   * 
+   * @param url - The current route URL
+   */
+  private checkRoute(url: string) {
+    const authRoutes = ['/', '/login', '/signup'];
+    this.showNavigation = !authRoutes.includes(url);
   }
-}
-
-/**
- * Performs a Firebase health check with a 2-second timeout.
- * 
- * @returns True if Firebase is reachable, false otherwise.
- */
-private async performHealthCheck(): Promise<boolean> {
-  const healthCheckPromise = this.boardTasksService.checkFirebaseConnection();
-  const timeoutPromise = new Promise<boolean>((resolve) => 
-    setTimeout(() => resolve(false), 2000)
-  );
-  return await Promise.race([healthCheckPromise, timeoutPromise]);
-}
-
-/**
- * Triggers a page reload after marking it in session storage.
- */
-private triggerReload() {
-  console.error('Firebase not reachable, reloading once...');
-  sessionStorage.setItem('hasReloaded', 'true');
-  setTimeout(() => {
-    console.warn('Page must be reloaded');
-    location.reload();
-  }, 1000);
-}
-
-/**
- * Loads all contacts from the database.
- */
-private loadContacts() {
-  this.contactService.getAllContacts().then((contacts) => {
-    this.contacts = contacts;
-  });
-}
-
-/**
- * Checks if the current route requires navigation components.
- * Hides navigation on authentication routes (login, signup, root).
- * 
- * @param url - The current route URL
- */
-private checkRoute(url: string) {
-  const authRoutes = ['/', '/login', '/signup'];
-  this.showNavigation = !authRoutes.includes(url);
-}
-
 }
