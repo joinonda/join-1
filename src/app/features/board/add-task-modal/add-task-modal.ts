@@ -16,6 +16,10 @@ import { ContactService } from '../../../core/services/db-contact-service';
 import { Timestamp } from '@angular/fire/firestore';
 import { AddTaskModalFormFields } from './add-task-modal-form-fields/add-task-modal-form-fields';
 
+/**
+ * Add task modal component for creating new tasks.
+ * Handles form validation, task creation, and success feedback.
+ */
 @Component({
   selector: 'app-add-task-modal',
   imports: [CommonModule, FormsModule, AddTaskModalFormFields],
@@ -48,8 +52,15 @@ export class AddTaskModal implements OnInit {
 
   @ViewChild(AddTaskModalFormFields) formFieldsComponent!: AddTaskModalFormFields;
 
+  /**
+   * Lifecycle hook that runs on component initialization.
+   */
   async ngOnInit() {}
 
+  /**
+   * Handles the Escape key press.
+   * Closes dropdowns if open, otherwise closes the modal if no success toast is showing.
+   */
   @HostListener('document:keydown.escape')
   onEscapeKey() {
     if (
@@ -65,6 +76,11 @@ export class AddTaskModal implements OnInit {
     }
   }
 
+  /**
+   * Handles document-level clicks to close dropdowns when clicking outside.
+   * 
+   * @param event - The mouse event
+   */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -75,6 +91,12 @@ export class AddTaskModal implements OnInit {
     }
   }
 
+  /**
+   * Validates all required form fields.
+   * Checks title, due date format and validity, and category selection.
+   * 
+   * @returns True if all validations pass, false otherwise
+   */
   validateForm(): boolean {
     let isValid = true;
 
@@ -147,6 +169,10 @@ export class AddTaskModal implements OnInit {
     return isValid;
   }
 
+  /**
+   * Validates and submits the form to create a new task.
+   * Shows success toast and closes modal after creation.
+   */
   onSubmit() {
     if (!this.validateForm()) {
       return;
@@ -177,6 +203,9 @@ export class AddTaskModal implements OnInit {
     }, 1500);
   }
 
+  /**
+   * Resets all form fields and error states to their default values.
+   */
   resetForm() {
     this.title = '';
     this.description = '';
@@ -191,17 +220,30 @@ export class AddTaskModal implements OnInit {
     this.categoryError = false;
   }
 
+  /**
+   * Closes the modal and resets the form.
+   */
   onClose() {
     this.resetForm();
     this.closeModal.emit();
   }
 
+  /**
+   * Handles clicks on the modal overlay.
+   * Closes modal only if success toast is not showing.
+   */
   onOverlayClick() {
     if (!this.showSuccessToast) {
       this.onClose();
     }
   }
 
+  /**
+   * Handles clicks inside the modal content.
+   * Closes dropdowns when clicking outside of them and prevents event propagation.
+   * 
+   * @param event - The mouse event
+   */
   onModalClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const clickedInsideDropdown = target.closest('.dropdown-wrapper');
@@ -213,10 +255,20 @@ export class AddTaskModal implements OnInit {
     event.stopPropagation();
   }
 
+  /**
+   * Changes subtask close button image on hover.
+   * 
+   * @param imgElement - The close button image element
+   */
   onSubtaskCloseHover(imgElement: HTMLImageElement) {
     imgElement.src = 'assets/board/close-hover-board.png';
   }
 
+  /**
+   * Restores subtask close button image when hover ends.
+   * 
+   * @param imgElement - The close button image element
+   */
   onSubtaskCloseLeave(imgElement: HTMLImageElement) {
     imgElement.src = 'assets/board/close-default-board.png';
   }
