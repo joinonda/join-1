@@ -8,289 +8,315 @@ textarea {
   scrollbar-width: thin;
 }
 
-.task-form {
-  max-width: 1000px;
+.form-columns-wrapper {
   display: flex;
-  gap: clamp(30px, 2vw, 40px);
-  align-items: flex-start;
   justify-content: space-between;
-  max-height: 420px;
+  align-items: start;
+  position: relative;
+  gap: clamp(20px, 3vw, 40px);
+  flex-wrap: wrap;
+  padding-right: 8px;
+  max-width: 1000px;
+
+  @media (max-width: 1024px) {
+    max-height: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 424px;
+    background: #d1d1d1;
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 768px) {
+    &::after {
+      display: none;
+    }
+  }
 }
 
-.form-left,
-.form-right {
-  flex: 1 1 0;
-  max-width: 440px;
+.form-left {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: clamp(8px, 1vw, 10px);
+  width: clamp(280px, 45%, 440px);
+  flex-shrink: 1;
+  min-width: 280px;
 }
 
-.form-divider {
-  width: 1px;
-  height: 424px;
-  background-color: #d1d1d1;
-  flex-shrink: 0;
+.form-right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vw, 10px);
+  width: clamp(280px, 45%, 440px);
+  flex-shrink: 1;
+  min-width: 280px;
 }
 
-.form-field {
+.form-group {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  width: 100%;
-  padding-bottom: 16px;
+  gap: clamp(6px, 1vw, 8px);
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
+  padding-bottom: clamp(16px, 2vw, 20px);
 
-  &.has-selected-contacts {
-    padding-bottom: 0;
+  &:has(.input-wrapper) {
+    align-items: flex-start;
+    padding: 0px 0px clamp(16px, 2vw, 20px) 0px;
+    width: 100%;
   }
 
   label {
+    width: 100%;
+    height: auto;
     font-family: 'Inter', sans-serif;
+    font-style: normal;
     font-weight: 400;
-    font-size: clamp(18px, 1vw, 20px);
+    font-size: clamp(16px, 2vw, 20px);
     line-height: 120%;
     color: #2a3647;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
 
     .required {
-      color: #ff8190;
+      color: #e60026;
       margin-left: 2px;
     }
   }
 
-  .input-wrapper,
-  .textarea-wrapper {
+  .input-wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
     width: 100%;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+
+    .field-error {
+      position: absolute;
+      bottom: clamp(-18px, -2vw, -20px);
+      left: 0;
+      width: 100%;
+      height: auto;
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: clamp(14px, 1.5vw, 16px);
+      line-height: 120%;
+      color: #e60026;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+
+      &.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
   }
 
   input[type='text'],
-  input[type='date'] {
-    padding: clamp(11px, 0.5vw, 12px) clamp(18px, 1vw, 21px);
-    width: 100%;
-    height: clamp(44px, 2vw, 48px);
-    background: #ffffff;
-    border: 1px solid #d1d1d1;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(18px, 1vw, 20px);
-    line-height: 120%;
-    color: #2a3647;
-    transition: border-color 0.2s;
-
-    &::placeholder {
-      color: #d1d1d1;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: #29abe2;
-    }
-  }
-
+  input[type='date'],
   textarea {
-    padding: clamp(16px, 1vw, 18px) clamp(15px, 0.5vw, 16px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: clamp(10px, 1.2vw, 12px) clamp(16px, 2vw, 21px);
+    gap: clamp(8px, 1vw, 10px);
     width: 100%;
-    min-height: clamp(110px, 5vw, 120px);
+    height: clamp(40px, 4.5vw, 48px);
     background: #ffffff;
     border: 1px solid #d1d1d1;
-    border-radius: 10px;
+    border-radius: clamp(8px, 1vw, 10px);
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
     font-family: 'Inter', sans-serif;
+    font-style: normal;
     font-weight: 400;
-    font-size: clamp(18px, 1vw, 20px);
+    font-size: clamp(16px, 2vw, 20px);
     line-height: 120%;
-    color: #2a3647;
-    resize: vertical;
+    color: #000000;
     transition: border-color 0.2s;
 
-    &::placeholder {
-      color: #d1d1d1;
+    &:hover {
+      border-color: #d1d1d1;
     }
 
     &:focus {
       outline: none;
       border-color: #29abe2;
     }
+
+    &::placeholder {
+      color: #d1d1d1;
+    }
+
+    &.error {
+      border-color: #e60026;
+    }
   }
 
-  .textarea-wrapper {
+  .date-input-container {
     position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: clamp(40px, 4.5vw, 48px);
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
 
-    .resize-icon {
+    input[type='text'] {
+      flex: 1;
+      padding-right: 50px;
+      width: 100%;
+    }
+
+    .calendar-icon-btn {
       position: absolute;
-      right: 8px;
-      bottom: 8px;
-      width: 18.9px;
-      height: 18.9px;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      svg path {
+        transition: fill 0.2s;
+      }
+
+      &:hover svg path {
+        fill: #29abe2;
+      }
+    }
+
+    .hidden-date-picker {
+      position: absolute;
+      opacity: 0;
       pointer-events: none;
     }
   }
 
-  .field-error {
-    width: 100%;
-    min-height: 16px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 120%;
-    color: #e60026;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease, opacity 0.2s ease, margin-top 0.2s ease;
-
-    &.visible {
-      max-height: 20px;
-      opacity: 1;
-      margin-top: 4px;
-      display: block;
-    }
+  input[type='date'] {
+    cursor: pointer;
   }
 
-  input.error,
-  .dropdown-toggle.error {
-    border-color: #e60026;
+  textarea {
+    resize: vertical;
+    min-height: clamp(80px, 10vw, 100px);
+    padding: clamp(14px, 1.8vw, 18px) clamp(12px, 1.5vw, 16px);
   }
 }
 
 .dropdown-wrapper {
   position: relative;
   width: 100%;
+}
 
-  .dropdown-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: clamp(11px, 0.5vw, 12px) clamp(18px, 1vw, 21px);
-    width: 100%;
-    height: clamp(44px, 2vw, 48px);
-    background: #ffffff;
-    border: 1px solid #d1d1d1;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(18px, 1vw, 20px);
-    line-height: 120%;
-    color: #000000;
-    cursor: pointer;
-    transition: border-color 0.2s;
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(10px, 1.2vw, 12px) clamp(12px, 1.5vw, 16px);
+  background: #ffffff;
+  border: 1px solid #d1d1d1;
+  border-radius: clamp(8px, 1vw, 10px);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  transition: border-color 0.2s;
 
-    &:hover {
-      border-color: #a8a8a8;
-    }
-
-    &.error {
-      border-color: #e60026;
-    }
-
-    .dropdown-arrow {
-      width: clamp(20px, 1.2vw, 24px);
-      height: clamp(20px, 1.2vw, 24px);
-      flex-shrink: 0;
-    }
+  &:hover {
+    border-color: #a8a8a8;
   }
 
-  .dropdown-menu {
-    position: absolute;
-    left: 0;
-    right: 0;
-    background: #ffffff;
-    border: 1px solid #d1d1d1;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    max-height: 244px;
-    overflow-y: auto;
-    z-index: 10;
-    margin-top: 4px;
+  &.error {
+    border-color: #e60026;
   }
+
+  .dropdown-arrow {
+    width: clamp(20px, 2.5vw, 24px);
+    height: clamp(20px, 2.5vw, 24px);
+    flex-shrink: 0;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #d1d1d1;
+  border-radius: clamp(8px, 1vw, 10px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: clamp(200px, 25vw, 244px);
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: 4px;
 
   .dropdown-item {
-    padding: clamp(10px, 0.8vw, 12px) clamp(14px, 1vw, 16px);
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(18px, 1vw, 20px);
-    font-weight: 400;
-    line-height: 120%;
-    color: #2a3647;
+    padding: clamp(10px, 1.2vw, 12px) clamp(12px, 1.5vw, 16px);
     cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(14px, 1.8vw, 20px);
+    color: #2a3647;
     transition: background-color 0.2s;
+    border-radius: clamp(8px, 1vw, 10px);
 
     &:hover {
-      background: #f4f4f4;
+      background: #eeeeee;
     }
   }
 
   .no-results {
-    padding: clamp(10px, 0.8vw, 12px) clamp(14px, 1vw, 16px);
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(14px, 0.9vw, 16px);
-    color: #999;
+    padding: clamp(10px, 1.2vw, 12px) clamp(12px, 1.5vw, 16px);
     text-align: center;
+    color: #a8a8a8;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(14px, 1.8vw, 18px);
   }
 }
 
-.date-input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 48px;
-
-  input[type='text'] {
-    flex: 1;
-    padding-right: 50px !important;
-    width: 100%;
-  }
-
-  .calendar-icon-btn {
-    position: absolute;
-    right: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-
-    svg path {
-      transition: fill 0.2s;
-    }
-
-    &:hover svg path {
-      fill: #29abe2;
-    }
-  }
-
-  .hidden-date-picker {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    width: 0;
-    height: 0;
-  }
-}
-
-@media (max-width: 796px) {
-  .task-form {
+@media (max-width: 768px) {
+  .form-columns-wrapper {
     flex-direction: column;
-    max-height: none;
-    gap: 20px;
-  }
 
-  .form-divider {
-    display: none;
+    &::after {
+      display: none;
+    }
   }
 
   .form-left,
   .form-right {
-    max-width: 100%;
     width: 100%;
+    max-width: 100%;
   }
 }

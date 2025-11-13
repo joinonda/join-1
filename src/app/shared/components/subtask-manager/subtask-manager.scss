@@ -1,10 +1,10 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(6px, 1vw, 8px);
 
   label {
-    font-size: 20px;
+    font-size: clamp(16px, 2vw, 20px);
     font-weight: 400;
     color: #2a3647;
   }
@@ -20,13 +20,14 @@
     input {
       flex: 1;
       width: 100%;
-      padding: clamp(10px, 2vw, 13px) clamp(70px, 15vw, 100px) clamp(10px, 2vw, 13px)
-        clamp(16px, 3vw, 21px);
+      padding: clamp(10px, 1.2vw, 13px) clamp(70px, 10vw, 100px) clamp(10px, 1.2vw, 13px)
+        clamp(16px, 2vw, 21px);
       border: 1px solid #d1d1d1;
-      border-radius: 10px;
-      font-size: clamp(14px, 3vw, 20px);
+      border-radius: clamp(8px, 1vw, 10px);
+      font-size: clamp(16px, 2vw, 20px);
       outline: none;
       box-sizing: border-box;
+      height: clamp(40px, 4.5vw, 48px);
 
       &:focus {
         border-color: #29abe2;
@@ -46,7 +47,7 @@
 
       .divider {
         width: 1px;
-        height: 24px;
+        height: clamp(20px, 2.5vw, 24px);
         background: #d1d1d1;
       }
 
@@ -103,7 +104,7 @@
         font-family: 'Inter', sans-serif;
         font-style: normal;
         font-weight: 400;
-        font-size: clamp(13px, 2.5vw, 16px);
+        font-size: 16px;
         line-height: 120%;
         color: #2a3647;
       }
@@ -132,7 +133,7 @@
         font-family: 'Inter', sans-serif !important;
         font-style: normal !important;
         font-weight: 400 !important;
-        font-size: clamp(13px, 2.5vw, 16px) !important;
+        font-size: 16px !important;
         line-height: 120% !important;
         color: #000000 !important;
         background: transparent !important;

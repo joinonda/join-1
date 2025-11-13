@@ -23,7 +23,7 @@
   label {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: clamp(16px, 3vw, 20px);
+    font-size: clamp(16px, 2vw, 20px);
     line-height: 120%;
     color: #2a3647;
   }
@@ -38,7 +38,7 @@
       border: 1px solid #d1d1d1;
       border-radius: 10px;
       background: #ffffff;
-      height: clamp(40px, 8vw, 48px);
+      height: clamp(40px, 4.5vw, 48px);
       transition: border-color 0.2s;
 
       &:hover {
@@ -52,13 +52,13 @@
       input[type='text'] {
         flex: 1;
         width: 100%;
-        padding: clamp(10px, 2vw, 12px) clamp(12px, 2vw, 16px);
-        padding-right: clamp(40px, 8vw, 45px);
+        padding: clamp(10px, 1.2vw, 12px) clamp(12px, 1.5vw, 16px);
+        padding-right: clamp(40px, 5vw, 45px);
         border: none !important;
         border-radius: 0 !important;
         background: transparent;
         font-family: 'Inter', sans-serif;
-        font-size: clamp(14px, 3vw, 20px);
+        font-size: clamp(16px, 2vw, 20px);
         font-weight: 400;
         line-height: 120%;
         color: #000000;
@@ -75,9 +75,9 @@
 
       .dropdown-arrow {
         position: absolute;
-        right: 16px;
-        width: 24px;
-        height: 24px;
+        right: clamp(12px, 1.5vw, 16px);
+        width: clamp(20px, 2.5vw, 24px);
+        height: clamp(20px, 2.5vw, 24px);
         cursor: pointer;
         flex-shrink: 0;
         pointer-events: auto;
@@ -91,9 +91,9 @@
       right: 0;
       background: #ffffff;
       border: 1px solid #d1d1d1;
-      border-radius: 10px;
+      border-radius: clamp(8px, 1vw, 10px);
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-      max-height: 244px;
+      max-height: clamp(200px, 25vw, 244px);
       overflow-y: auto;
       z-index: 10;
       margin-top: 4px;
@@ -106,7 +106,7 @@
           justify-content: space-between;
           cursor: pointer;
           transition: background-color 0.2s;
-          border-radius: 10px;
+          border-radius: clamp(8px, 1vw, 10px);
 
           &:hover {
             background: #eeeeee;
@@ -136,14 +136,14 @@
               display: flex;
               align-items: center;
               justify-content: center;
-              font-size: clamp(10px, 2vw, 12px);
+              font-size: 12px;
               color: #ffffff;
               font-weight: 400;
               border: 2px solid #ffffff;
             }
 
             span {
-              font-size: clamp(14px, 3vw, 20px);
+              font-size: clamp(16px, 2vw, 20px);
               color: #2a3647;
               transition: color 0.2s;
             }
@@ -189,7 +189,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: clamp(12px, 2.5vw, 14px);
+        font-size: 14px;
         color: #ffffff;
         font-weight: 400;
         border: 2px solid #ffffff;
@@ -202,7 +202,7 @@
 
         &.more-contacts {
           background-color: #2a3647;
-          font-size: clamp(10px, 2vw, 12px);
+          font-size: 12px;
         }
       }
     }

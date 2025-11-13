@@ -11,39 +11,47 @@
 }
 
 .priority-group {
+  container-type: inline-size;
+
   .priority-label {
-    font-size: 20px;
+    font-size: clamp(16px, 2vw, 20px);
     font-weight: 400;
     color: #2a3647;
   }
 
   .priority-buttons {
     display: flex;
-    gap: clamp(4px, 2vw, 16px);
+    gap: clamp(6px, 1.5vw, 16px);
 
     .priority-btn {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(2px, 1vw, 8px);
-      padding: clamp(8px, 2vw, 16px) clamp(4px, 1vw, 16px);
+      gap: clamp(4px, 0.8vw, 8px);
+      padding: clamp(10px, 1.2vw, 16px) clamp(8px, 1vw, 16px);
       background: white;
       border: 1px solid #d1d1d1;
-      border-radius: 10px;
+      border-radius: clamp(8px, 1vw, 10px);
       cursor: pointer;
-      font-size: clamp(12px, 3vw, 20px);
+      font-size: clamp(16px, 1.8vw, 20px);
       font-weight: 400;
       color: #2a3647;
       transition: all 0.2s ease;
+      min-height: clamp(40px, 4.5vw, 48px);
+      min-width: 0;
 
       &:hover {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
+      .priority-text {
+        white-space: nowrap;
+      }
+
       .priority-img {
-        width: clamp(20px, 5vw, 32px);
-        height: clamp(20px, 5vw, 32px);
+        width: clamp(16px, 2.5vw, 24px);
+        height: clamp(16px, 2.5vw, 24px);
         object-fit: contain;
         flex-shrink: 0;
       }
@@ -93,8 +101,26 @@
   }
 }
 
-@media (max-width: 400px) {
+@container (max-width: 380px) {
+  .priority-buttons {
+    gap: clamp(4px, 1vw, 8px);
+
+    .priority-btn {
+      padding: 12px;
+
+      .priority-text {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
   .priority-group {
+    .priority-buttons {
+      gap: clamp(4px, 1vw, 8px);
+    }
+
     .priority-btn {
       padding: 12px;
 
