@@ -93,7 +93,7 @@ export class AddTaskModalFormFields implements OnInit {
   /**
    * Selects a category and closes the dropdown.
    * Clears category error and emits the selection.
-   * 
+   *
    * @param category - The selected category
    */
   selectCategory(category: string) {
@@ -106,7 +106,7 @@ export class AddTaskModalFormFields implements OnInit {
   /**
    * Formats date input as DD/MM/YYYY while typing.
    * Automatically adds slashes at appropriate positions.
-   * 
+   *
    * @param event - The input event
    */
   formatDateInput(event: Event) {
@@ -134,7 +134,7 @@ export class AddTaskModalFormFields implements OnInit {
   /**
    * Handles date selection from the native date picker.
    * Converts YYYY-MM-DD to DD/MM/YYYY format.
-   * 
+   *
    * @param event - The change event from the date picker
    */
   onDatePickerChange(event: Event) {
@@ -150,7 +150,7 @@ export class AddTaskModalFormFields implements OnInit {
 
   /**
    * Gets today's date as a string in YYYY-MM-DD format.
-   * 
+   *
    * @returns Today's date string
    */
   getTodayDateString(): string {
@@ -163,7 +163,7 @@ export class AddTaskModalFormFields implements OnInit {
 
   /**
    * Changes arrow image on hover based on dropdown state.
-   * 
+   *
    * @param imgElement - The arrow image element
    * @param isDropdownOpen - Current dropdown open state
    */
@@ -177,7 +177,7 @@ export class AddTaskModalFormFields implements OnInit {
 
   /**
    * Restores arrow image when hover ends based on dropdown state.
-   * 
+   *
    * @param imgElement - The arrow image element
    * @param isDropdownOpen - Current dropdown open state
    */
@@ -210,6 +210,26 @@ export class AddTaskModalFormFields implements OnInit {
    */
   onDateChange() {
     this.dueDateError = false;
+  }
+
+  /**
+   * Handles changes to selected contact IDs and emits the new value.
+   *
+   * @param contactIds - The updated array of selected contact IDs
+   */
+  onSelectedContactIdsChange(contactIds: string[]) {
+    this.selectedContactIds = contactIds;
+    this.selectedContactIdsChange.emit(contactIds);
+  }
+
+  /**
+   * Handles changes to subtasks and emits the new value.
+   *
+   * @param subtasks - The updated array of subtasks
+   */
+  onSubtasksChange(subtasks: Subtask[]) {
+    this.subtasks = subtasks;
+    this.subtasksChange.emit(subtasks);
   }
 
   /**

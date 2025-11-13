@@ -40,7 +40,8 @@
     <div class="form-right">
         <app-priority-selector [(priority)]="priority"></app-priority-selector>
 
-        <app-contact-assignment-dropdown [contacts]="contacts" [(selectedContactIds)]="selectedContactIds">
+        <app-contact-assignment-dropdown [contacts]="contacts" [selectedContactIds]="selectedContactIds"
+            (selectedContactIdsChange)="onSelectedContactIdsChange($event)">
         </app-contact-assignment-dropdown>
 
         <div class="form-group">
@@ -70,6 +71,7 @@
             </div>
         </div>
 
-        <app-subtask-manager [(subtasks)]="subtasks"></app-subtask-manager>
+        <app-subtask-manager [subtasks]="subtasks" (subtasksChange)="onSubtasksChange($event)">
+        </app-subtask-manager>
     </div>
 </div>
