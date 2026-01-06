@@ -1,4 +1,4 @@
-
+@if (showNavigation) {
 <app-navbar />
 <div class="main-content">
     <app-header />
@@ -6,3 +6,6 @@
         <router-outlet />
     </main>
 </div>
+} @else {
+<router-outlet />
+}
